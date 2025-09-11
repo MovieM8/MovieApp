@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import todoRouter from './routes/todoRouter.js';
 import userRouter from './routes/userRouter.js';
 
 const port = process.env.port
@@ -10,7 +9,6 @@ app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(express.urlencoded({ extended: false })); // Middleware to parse URL-encoded bodies
 
-app.use('/', todoRouter); // Use the todoRouter for all routes
 app.use('/user', userRouter); // Use the userRouter for /user routes
 
 // Error handling middleware
