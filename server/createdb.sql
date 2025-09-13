@@ -76,4 +76,3 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO dbuser;
 
 -- Also grant sequence usage for inserts (needed for serial ID)
 GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO dbuser;
-
