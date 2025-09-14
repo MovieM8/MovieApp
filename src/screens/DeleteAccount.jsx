@@ -1,5 +1,6 @@
 import { useUser } from "../context/useUser.js";
 
+
 export default function DeleteAccount() {
     const { deleteAccount } = useUser();
 
@@ -7,11 +8,11 @@ export default function DeleteAccount() {
         if (!window.confirm("Are you sure you want to delete your account? This cannot be undone.")) {
             return;
         }
-        await deleteAccount(); // await ensures API call completes
+        await deleteAccount(); 
     };
 
     return (
-        <div id="page-container">
+        <div id="del-container">
             <h3>Delete Account</h3>
             <p>Warning: This action cannot be undone.</p>
             <button className="btn btn-danger" onClick={handleDelete}>

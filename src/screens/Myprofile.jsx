@@ -3,6 +3,7 @@ export default function Myprofile() {
         <div id="page-container">
 
             <h3>My Profile</h3>
+            <Outlet />
         </div>
     )
 }

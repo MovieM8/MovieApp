@@ -11,4 +11,9 @@ const insertUser = async (email, hashedPassword) => {
     );
 };
 
-export { selectUserByEmail, insertUser };
+const deleteUser = async (email) => {
+    return await pool.query('DELETE FROM users WHERE email = $1 RETURNING *', [email]);
+};
+
+
+export { selectUserByEmail, insertUser, deleteUser };

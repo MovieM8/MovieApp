@@ -39,17 +39,16 @@ const router = createBrowserRouter([
             <MyProfile />
           </ProtectedRoute>
         ),
+        children: [
+          //{ path: "favorites", element: <Favorites /> },
+          //{ path: "myreviews", element: <MyReviews /> },
+          //{ path: "mygroups", element: <MyGroups /> },
+          { path: "deleteaccount", element: <DeleteAccount /> },
+        ],
       },
-      {
-        path: "/deleteaccount",
-        element: (
-          <ProtectedRoute>
-            <DeleteAccount />
-          </ProtectedRoute>
-        ),
-      },
+      
       /*{
-        path: "/favorites",
+        path: "/myprofile/favorites",
         element: (
           <ProtectedRoute>
             <Favorites />

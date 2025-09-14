@@ -1,4 +1,4 @@
-import { selectUserByEmail, insertUser } from "../models/User.js";
+import { selectUserByEmail, insertUser, deleteUser } from "../models/User.js";
 import { ApiError } from "../helper/ApiError.js";
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -13,14 +13,14 @@ const signUp = async (req, res, next) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(user.password)) {
         return alert("Password must be at least 8 characters long, contain at least one uppercase letter and one number") //next(
-            //new ApiError(
-            //    "Password must be at least 8 characters long, contain at least one uppercase letter and one number",
-            //    400
+        //new ApiError(
+        //    "Password must be at least 8 characters long, contain at least one uppercase letter and one number",
+        //    400
 
-            //)
+        //)
         //);
     }
-    
+
     try {
         const existing = await selectUserByEmail(user.email);
         if (existing.rows.length > 0) {
@@ -70,12 +70,14 @@ const signIn = async (req, res, next) => {
 
 // deleting a user account
 const deleteAccount = async (req, res, next) => {
+    const { user } = req.body;
+    const result = await selectUserByEmail(user.email);
+
     try {
-        // Assume user email is in req.user from JWT middleware
-        const email = req.user?.email;
+        const email = user.email;
         if (!email) return next(new ApiError("Unauthorized", 401));
 
-        const result = await pool.query("DELETE FROM users WHERE email = $1 RETURNING *", [email]);
+        const result = await deleteUser(user.email);
         if (result.rowCount === 0) {
             return next(new ApiError("User not found", 404));
         }
@@ -84,7 +86,7 @@ const deleteAccount = async (req, res, next) => {
     } catch (error) {
         return next(error);
     }
-    
+
 };
 
-export { signUp, signIn, deleteAccount  };
+export { signUp, signIn, deleteAccount };
