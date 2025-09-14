@@ -1,41 +1,81 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './screens/App.jsx'
-import Authentication, { AuthenticationMode } from './screens/Authentication.jsx'
-import ProtectedRoute from './components/ProtectedRoute.jsx'
-import UserProvider from './context/UserProvider.jsx'
-import { RouterProvider } from 'react-router-dom'
-import { createBrowserRouter } from 'react-router-dom'
-import NotFound from './screens/NotFound.jsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './screens/App.jsx';
+import Authentication, { AuthenticationMode } from './screens/Authentication.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import UserProvider from './context/UserProvider.jsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import NotFound from './screens/NotFound.jsx';
+import Home from './screens/Home.jsx';
+import MyProfile from './screens/Myprofile.jsx';
+/*import Favorites from './screens/Favorites.jsx';
+import ScreeningTimes from './screens/ScreeningTimes.jsx';
+import MovieSearch from './screens/Search.jsx';
+import Reviews from './screens/Reviews.jsx';
+import Groups from './screens/Groups.jsx';*/
+import DeleteAccount from './screens/DeleteAccount.jsx';
 
+// Create router
 const router = createBrowserRouter([
   {
-    errorElement: <NotFound />,
-  },
-  { 
-    path: "/signin",
-    element: <Authentication authenticationMode={AuthenticationMode.SignIn} />
-  },
-  {
-    path: "/signup",
-    element: <Authentication authenticationMode={AuthenticationMode.SignUp} />
-  },
-  {
-    //element: <ProtectedRoute />,
+    element: (
+      <UserProvider>
+        <App /> {/* App acts as the layout with Header, Navbar, Aside */}
+      </UserProvider>
+    ),
     children: [
-      {
-        path: "/",
-        element: <App />
-      }
-    ]
-  }
-])
+      { path: "/", element: <Home /> },
+      /*{ path: "/screeningtimes", element: <ScreeningTimes /> },
+      { path: "/search", element: <MovieSearch /> },
+      { path: "/reviews", element: <Reviews /> },
+      { path: "/groups", element: <Groups /> },*/
 
+      // Protected routes
+      {
+        path: "/myprofile",
+        element: (
+          <ProtectedRoute>
+            <MyProfile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/deleteaccount",
+        element: (
+          <ProtectedRoute>
+            <DeleteAccount />
+          </ProtectedRoute>
+        ),
+      },
+      /*{
+        path: "/favorites",
+        element: (
+          <ProtectedRoute>
+            <Favorites />
+          </ProtectedRoute>
+        ),
+      },*/
+
+      // Public auth routes
+      {
+        path: "/signin",
+        element: <Authentication authenticationMode={AuthenticationMode.SignIn} />,
+      },
+      {
+        path: "/signup",
+        element: <Authentication authenticationMode={AuthenticationMode.SignUp} />,
+      },
+
+      // Not found route
+      { path: "*", element: <NotFound /> },
+    ],
+  },
+]);
+
+// Render the app
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
-  </StrictMode>,
-)
+    <RouterProvider router={router} />
+  </StrictMode>
+);

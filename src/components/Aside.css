@@ -1,0 +1,28 @@
+.aside-container {
+    width: 250px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+}
+
+.aside-container h3 {
+    margin-bottom: 15px;
+}
+
+.aside-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.aside-container ul li {
+    margin-bottom: 10px;
+}
+
+.aside-container ul li a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.aside-container ul li a:hover {
+    text-decoration: underline;
+}

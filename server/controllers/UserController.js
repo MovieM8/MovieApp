@@ -12,12 +12,13 @@ const signUp = async (req, res, next) => {
     // Password validation
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(user.password)) {
-        return next(
-            new ApiError(
-                "Password must be at least 8 characters long, contain at least one uppercase letter and one number",
-                400
-            )
-        );
+        return alert("Password must be at least 8 characters long, contain at least one uppercase letter and one number") //next(
+            //new ApiError(
+            //    "Password must be at least 8 characters long, contain at least one uppercase letter and one number",
+            //    400
+
+            //)
+        //);
     }
     
     try {
@@ -67,4 +68,23 @@ const signIn = async (req, res, next) => {
     }
 };
 
-export { signUp, signIn };
+// deleting a user account
+const deleteAccount = async (req, res, next) => {
+    try {
+        // Assume user email is in req.user from JWT middleware
+        const email = req.user?.email;
+        if (!email) return next(new ApiError("Unauthorized", 401));
+
+        const result = await pool.query("DELETE FROM users WHERE email = $1 RETURNING *", [email]);
+        if (result.rowCount === 0) {
+            return next(new ApiError("User not found", 404));
+        }
+
+        res.status(200).json({ message: "Account deleted successfully" });
+    } catch (error) {
+        return next(error);
+    }
+    
+};
+
+export { signUp, signIn, deleteAccount  };
