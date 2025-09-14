@@ -1,10 +1,12 @@
 import { useState } from "react"; 
 import { UserContext } from "./UserContext.js";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function UserProvider({ children }) {
     const userFromStorage = sessionStorage.getItem('user');
     const [user, setUser] = useState(userFromStorage ? JSON.parse(userFromStorage) : {email: '', password: ''});
+    const navigate = useNavigate();
     
     const signUp = async () => {
         const headers = {headers: {'Content-Type': 'application/json'}};
@@ -18,9 +20,33 @@ export default function UserProvider({ children }) {
         setUser(response.data);
         sessionStorage.setItem('user', JSON.stringify(response.data));
     }
+
+    // logout function
+    const logout = () => {
+        setUser({email: '', password: ''});
+        sessionStorage.removeItem('user');
+        navigate('/');
+    }
+
+    // delete account function
+    const deleteAccount = async () => {
+        if (!user?.token) return alert("No user logged in");
+    
+        try {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/user/delete`, {
+                headers: { Authorization: `Bearer ${user.token}` },
+            });
+            alert("Your account has been deleted.");
+            setUser(null); // remove user and token
+            navigate("/signup");
+        } catch (error) {
+            console.error(error);
+            alert("Failed to delete account.");
+        }
+    };
    
     return (
-        <UserContext.Provider value={{user, setUser, signUp, signIn}}>
+        <UserContext.Provider value={{user, setUser, signUp, signIn, logout, deleteAccount}}>
             {children}
         </UserContext.Provider>
     );

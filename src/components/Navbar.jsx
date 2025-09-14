@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
+import { useUser } from '../context/useUser.js'
 
 export default function Navbar() {
+    const { user, logout } = useUser();
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
@@ -31,8 +34,17 @@ export default function Navbar() {
                             <Link className="nav-link" to="/groups">Groups</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/signin">Login</Link>
+                            <Link className="nav-link" to="/myprofile">My profile</Link>
                         </li>
+                        {!user.email ? (
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/signin">Login</Link>
+                            </li>
+                        ) : (
+                            <li className="nav-item">
+                                <button className="btn btn-link nav-link" onClick={logout}>Logout</button>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>

@@ -1,9 +1,12 @@
 import './App.css'
 import Navbar from '../components/Navbar.jsx'
 import Header from '../components/Header.jsx'
+import Aside from '../components/Aside.jsx'
 import Home from './Home.jsx'
 import { Routes, Route } from 'react-router-dom'
 import NotFound from './NotFound.jsx'
+import Myprofile from './Myprofile.jsx'
+import { Outlet } from 'react-router-dom';
 
 
 
@@ -14,21 +17,20 @@ function App() {
 
 
 
-// Render the main application UI
-return (
-  <div id="container">
-    <Header />
-    <Navbar />
-    
-    <Routes>
-      <Route path="/" element={<Home />} />
-      
-      <Route path="/*" exact element={<NotFound />} />
-    </Routes>
-
-  </div>
-)
-//<Route path="/signin" element={<Authentication authenticationMode={AuthenticationMode.SignIn} />} />
+  // Render the main application UI
+  return (
+    <div id="container">
+      <Header />
+      <Navbar />
+      <div className="main-layout">
+        <Aside />
+        <main>
+          <Outlet /> 
+        </main>
+      </div>
+    </div >
+  )
+  //<Route path="/signin" element={<Authentication authenticationMode={AuthenticationMode.SignIn} />} />
 }
 
 export default App

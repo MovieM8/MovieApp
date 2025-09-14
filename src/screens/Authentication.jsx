@@ -18,6 +18,7 @@ export default function Authentication({ authenticationMode }) {
         const signFunction = authenticationMode === AuthenticationMode.SignUp ? signUp : signIn;
         signFunction().then(response => {
             navigate(authenticationMode === Authentication.SignUp ? '/signin' : '/');
+            //navigate(authenticationMode === AuthenticationMode.SignUp ? '/signin' : '/');
         })
         .catch(error => {
             alert(error);
