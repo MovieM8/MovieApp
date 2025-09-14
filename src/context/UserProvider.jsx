@@ -42,7 +42,7 @@ export default function UserProvider({ children }) {
             });
 
             alert("Your account has been deleted.");
-            setUser({ email: '', password: '' }); // remove user and token
+            setUser({ email: '', password: '' }); // remove user
             sessionStorage.removeItem("user");
             navigate("/signin");
         } catch (error) {
