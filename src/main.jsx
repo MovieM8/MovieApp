@@ -9,12 +9,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './screens/NotFound.jsx';
 import Home from './screens/Home.jsx';
 import MyProfile from './screens/Myprofile.jsx';
-/*import Favorites from './screens/Favorites.jsx';
+/*import Favorites from './screens/Favorites.jsx';*/
 import ScreeningTimes from './screens/ScreeningTimes.jsx';
-import MovieSearch from './screens/Search.jsx';
+/*import MovieSearch from './screens/Search.jsx';
 import Reviews from './screens/Reviews.jsx';
 import Groups from './screens/Groups.jsx';*/
 import DeleteAccount from './screens/DeleteAccount.jsx';
+import { TheatreProvider } from "./context/TheatreContext.jsx";
 
 // Create router
 const router = createBrowserRouter([
@@ -26,8 +27,9 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "/", element: <Home /> },
-      /*{ path: "/screeningtimes", element: <ScreeningTimes /> },
-      { path: "/search", element: <MovieSearch /> },
+
+      { path: "/screeningtimes", element: <ScreeningTimes /> },
+      /*{ path: "/search", element: <MovieSearch /> },
       { path: "/reviews", element: <Reviews /> },
       { path: "/groups", element: <Groups /> },*/
 
@@ -75,6 +77,8 @@ const router = createBrowserRouter([
 // Render the app
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <TheatreProvider>
+      <RouterProvider router={router} />
+    </TheatreProvider>
   </StrictMode>
 );
