@@ -23,9 +23,11 @@ function App() {
       <Header />
       <Navbar />
       <div className="main-layout">
-        <Aside />
+       <div className="aside-area">
+          <Aside />
+        </div>
         <main>
-          <Outlet /> 
+          <Outlet />
         </main>
       </div>
     </div >

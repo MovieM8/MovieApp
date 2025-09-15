@@ -52,6 +52,7 @@ export default function Aside() {
                                     </option>
                                 ))}
                             </select>
+                            <p>Movies for the next week are shown.</p>
                         </div>
                     );
                 case "/favorites":
