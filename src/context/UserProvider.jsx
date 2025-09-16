@@ -5,13 +5,13 @@ import axios from "axios";
 
 export default function UserProvider({ children }) {
     const userFromStorage = sessionStorage.getItem('user');
-    const [user, setUser] = useState(userFromStorage ? JSON.parse(userFromStorage) : { email: '', password: '' });
+    const [user, setUser] = useState(userFromStorage ? JSON.parse(userFromStorage) : { email: '', password: '', username: '' });
     const navigate = useNavigate();
 
     const signUp = async () => {
         const headers = { headers: { 'Content-Type': 'application/json' } };
         await axios.post(`${import.meta.env.VITE_API_URL}/user/signup`, JSON.stringify({ user: user }), headers);
-        setUser({ email: "", password: "" });
+        setUser({ email: "", password: "", username: "" });
     }
 
     const signIn = async () => {
@@ -23,7 +23,7 @@ export default function UserProvider({ children }) {
 
     // logout function
     const logout = () => {
-        setUser({ email: '', password: '' });
+        setUser({ email: '', username: '', password: '' });
         sessionStorage.removeItem('user');
         navigate('/');
     }
@@ -38,11 +38,12 @@ export default function UserProvider({ children }) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${user.token}`,
                 },
+                
                 data: { user },
             });
 
             alert("Your account has been deleted.");
-            setUser({ email: '', password: '' }); // remove user
+            setUser({ email: '', password: '', username: '' }); // remove user
             sessionStorage.removeItem("user");
             navigate("/signin");
         } catch (error) {

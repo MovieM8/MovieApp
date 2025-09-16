@@ -20,9 +20,9 @@ export default function Authentication({ authenticationMode }) {
             navigate(authenticationMode === Authentication.SignUp ? '/signin' : '/');
             //navigate(authenticationMode === AuthenticationMode.SignUp ? '/signin' : '/');
         })
-        .catch(error => {
-            alert(error);
-        });
+            .catch(error => {
+                alert(error);
+            });
     }
 
     // Render the authentication form
@@ -34,17 +34,29 @@ export default function Authentication({ authenticationMode }) {
             </h3>
             <form onSubmit={handleSubmit}>
                 <label>Email</label>
-                <input 
-                placeholder='Email' 
-                value={user.email || ""}
-                onChange={e => setUser({...user, email: e.target.value})}   
+                <input
+                    placeholder='Email'
+                    value={user.email || ""}
+                    onChange={e => setUser({ ...user, email: e.target.value })}
                 />
+                
+                {authenticationMode === AuthenticationMode.SignUp && (
+                    <>
+                        <label>Username</label>
+                        <input
+                            placeholder="Username"
+                            value={user.username || ""}
+                            onChange={(e) => setUser({ ...user, username: e.target.value })}
+                        />
+                    </>
+                )}
+
                 <label>Password</label>
-                <input 
-                placeholder='Password' 
-                type='password' 
-                value={user.password || ""}
-                onChange={e => setUser({...user, password: e.target.value})}
+                <input
+                    placeholder='Password'
+                    type='password'
+                    value={user.password || ""}
+                    onChange={e => setUser({ ...user, password: e.target.value })}
                 />
                 <button type='submit'>{authenticationMode === AuthenticationMode.SignIn ?
                     'Login' : 'Submit'}</button>

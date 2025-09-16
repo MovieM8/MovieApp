@@ -5,8 +5,8 @@ import jwt from "jsonwebtoken";
 
 const signUp = async (req, res, next) => {
     const { user } = req.body;
-    if (!user || !user.email || !user.password) {
-        return next(new ApiError("Email and password are required", 400));
+    if (!user || !user.email || !user.password || !user.username) {
+        return next(new ApiError("Email, username and password are required", 400));
     }
 
     // Password validation
@@ -29,8 +29,8 @@ const signUp = async (req, res, next) => {
         hash(user.password, 10, async (err, hashedPassword) => {
             if (err) return next(err);
             try {
-                const result = await insertUser(user.email, hashedPassword);
-                res.status(201).json({ id: result.rows[0].id, email: user.email });
+                const result = await insertUser(user.email, hashedPassword, user.username);
+                res.status(201).json({ id: result.rows[0].id, email: user.email, username: user.username });
             } catch (error) {
                 return next(error);
             }
@@ -59,6 +59,7 @@ const signIn = async (req, res, next) => {
             const token = jwt.sign({ user: dbUser.email }, process.env.JWT_SECRET_KEY);
             res.status(200).json({
                 id: dbUser.id,
+                username: dbUser.username,
                 email: dbUser.email,
                 token
             });
@@ -72,7 +73,6 @@ const signIn = async (req, res, next) => {
 const deleteAccount = async (req, res, next) => {
     const { user } = req.body;
     const result = await selectUserByEmail(user.email);
-
     try {
         const email = user.email;
         if (!email) return next(new ApiError("Unauthorized", 401));
