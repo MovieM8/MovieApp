@@ -1,13 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+/*import { useState, useEffect } from "react";
 import { fetchTheatres } from "../services/Finnkino.js";
-import { useTheatre } from "../context/TheatreContext.jsx";
+import { useTheatre } from "../context/TheatreContext.jsx";*/
 import "./Aside.css";
+import ScreeningTimeMenu from "./ScreeningAside.jsx"
 
 export default function Aside() {
     const location = useLocation();
     const isMyProfileSection = location.pathname.startsWith("/myprofile");
-    const [theatres, setTheatres] = useState([]);
+    /*const [theatres, setTheatres] = useState([]);
     const { selectedTheatre, setSelectedTheatre } = useTheatre();
 
     useEffect(() => {
@@ -20,7 +21,7 @@ export default function Aside() {
 
     const handleChange = (e) => {
         setSelectedTheatre(e.target.value);
-    };
+    };*/
 
     // Define content for different pages
     const renderAsideContent = () => {
@@ -37,7 +38,8 @@ export default function Aside() {
         else {
             switch (location.pathname) {
                 case "/screeningtimes":
-                    return (
+                    return <ScreeningTimeMenu />;
+                    /*return (
                         <div>
                             <label htmlFor="theatreSelect">Choose a theatre:</label>
                             <select
@@ -54,7 +56,7 @@ export default function Aside() {
                             </select>
                             <p>Movies for the next week are shown.</p>
                         </div>
-                    );
+                    );*/
                 case "/favorites":
                     return <p>Manage your favorite movies here.</p>;
                 case "/myreviews":
