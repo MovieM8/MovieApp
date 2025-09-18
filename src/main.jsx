@@ -11,11 +11,12 @@ import Home from './screens/Home.jsx';
 import MyProfile from './screens/Myprofile.jsx';
 /*import Favorites from './screens/Favorites.jsx';*/
 import ScreeningTimes from './screens/ScreeningTimes.jsx';
-/*import MovieSearch from './screens/Search.jsx';
-import Reviews from './screens/Reviews.jsx';
+import MovieSearch from './screens/Search.jsx';
+/*import Reviews from './screens/Reviews.jsx';
 import Groups from './screens/Groups.jsx';*/
 import DeleteAccount from './screens/DeleteAccount.jsx';
 import { TheatreProvider } from "./context/TheatreContext.jsx";
+import { MovieProvider } from "./context/MovieContext.jsx";
 
 // Create router
 const router = createBrowserRouter([
@@ -26,11 +27,11 @@ const router = createBrowserRouter([
       </UserProvider>
     ),
     children: [
+      // Public routes
       { path: "/", element: <Home /> },
-
       { path: "/screeningtimes", element: <ScreeningTimes /> },
-      /*{ path: "/search", element: <MovieSearch /> },
-      { path: "/reviews", element: <Reviews /> },
+      { path: "/search", element: <MovieSearch /> },
+      /*{ path: "/reviews", element: <Reviews /> },
       { path: "/groups", element: <Groups /> },*/
 
       // Protected routes
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
           { path: "deleteaccount", element: <DeleteAccount /> },
         ],
       },
-      
+
       /*{
         path: "/myprofile/favorites",
         element: (
@@ -78,7 +79,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <TheatreProvider>
-      <RouterProvider router={router} />
+      <MovieProvider>
+        <RouterProvider router={router} />
+      </MovieProvider>
     </TheatreProvider>
   </StrictMode>
 );

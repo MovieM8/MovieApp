@@ -4,6 +4,7 @@ import { fetchTheatres } from "../services/Finnkino.js";
 import { useTheatre } from "../context/TheatreContext.jsx";*/
 import "./Aside.css";
 import ScreeningTimeMenu from "./ScreeningAside.jsx"
+import SearchAside from "./SearchAside.jsx"
 
 export default function Aside() {
     const location = useLocation();
@@ -39,30 +40,32 @@ export default function Aside() {
             switch (location.pathname) {
                 case "/screeningtimes":
                     return <ScreeningTimeMenu />;
-                    /*return (
-                        <div>
-                            <label htmlFor="theatreSelect">Choose a theatre:</label>
-                            <select
-                                id="theatreSelect"
-                                value={selectedTheatre}
-                                onChange={handleChange}
-                            >
-                                <option value="">-- Select --</option>
-                                {theatres.map((theatre) => (
-                                    <option key={theatre.id} value={theatre.id}>
-                                        {theatre.name}
-                                    </option>
-                                ))}
-                            </select>
-                            <p>Movies for the next week are shown.</p>
-                        </div>
-                    );*/
+                /*return (
+                    <div>
+                        <label htmlFor="theatreSelect">Choose a theatre:</label>
+                        <select
+                            id="theatreSelect"
+                            value={selectedTheatre}
+                            onChange={handleChange}
+                        >
+                            <option value="">-- Select --</option>
+                            {theatres.map((theatre) => (
+                                <option key={theatre.id} value={theatre.id}>
+                                    {theatre.name}
+                                </option>
+                            ))}
+                        </select>
+                        <p>Movies for the next week are shown.</p>
+                    </div>
+                );*/
                 case "/favorites":
                     return <p>Manage your favorite movies here.</p>;
                 case "/myreviews":
                     return <p>View and manage your reviews here.</p>;
                 case "/mygroups":
                     return <p>Manage your groups here.</p>;
+                case "/search":
+                    return <SearchAside />;
                 default:
                     return <p>Select an option from the menu.</p>;
             }
