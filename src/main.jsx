@@ -16,7 +16,7 @@ import MovieSearch from './screens/Search.jsx';
 import Groups from './screens/Groups.jsx';*/
 import DeleteAccount from './screens/DeleteAccount.jsx';
 import { TheatreProvider } from "./context/TheatreContext.jsx";
-import { MovieProvider } from "./context/MovieContext.jsx";
+import { MovieSearchProvider } from "./context/MovieSearchContext.jsx";
 
 // Create router
 const router = createBrowserRouter([
@@ -79,9 +79,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <TheatreProvider>
-      <MovieProvider>
+      <MovieSearchProvider>
         <RouterProvider router={router} />
-      </MovieProvider>
+      </MovieSearchProvider>
     </TheatreProvider>
   </StrictMode>
 );

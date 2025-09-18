@@ -1,12 +1,18 @@
-import { useMovies } from "../context/MovieContext.jsx";
+import { useMovies } from "../context/MovieSearchContext.jsx";
 import ReactPaginate from "react-paginate";
 import "./Search.css";
 
 export default function Search() {
-    const { movies, loading, pageCount, runSearch, query } = useMovies();
+    const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear } = useMovies();
 
     const handlePageClick = (event) => {
-        runSearch(query, event.selected + 1);
+        if(query != null){
+            runSearch(query, event.selected + 1);
+        }
+        else if (queryYear != null) {
+            runSearchByYear(queryYear, event.selected + 1)
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     if (loading) {
@@ -19,18 +25,34 @@ export default function Search() {
                 <p>No movies found. Try searching for something else.</p>
             ) : (
                 <>
+                    {pageCount > 1 && (
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel=">"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={pageCount}
+                            previousLabel="<"
+                            renderOnZeroPageCount={null}
+                            containerClassName="pagination pagination-top"
+                            activeClassName="selected"
+                            forcePage={currentPage - 1}
+                        />
+                    )}
+
                     <div className="moviegrid">
                         {movies.map((movie) => (
                             <div key={movie.id}>
-                                {movie.poster && (
+                                {movie.image && (
                                     <img
                                         src={movie.image}
                                         alt={movie.title}
                                     />
                                 )}
                                 <h4>{movie.title}</h4>
-                                <p>{movie.release_date}</p>
-                                <p>{movie.overview}</p>
+                                <p><strong>Rating:</strong> {movie.rating ? movie.rating.toFixed(1) : "N/A"}</p>
+                                <p><strong>Release date:</strong> {movie.release_date}</p>
+                                <p><strong>Description:</strong> {movie.overview}</p>
                             </div>
                         ))}
                     </div>
@@ -44,8 +66,9 @@ export default function Search() {
                             pageCount={pageCount}
                             previousLabel="<"
                             renderOnZeroPageCount={null}
-                            containerClassName="pagination"
+                            containerClassName="pagination pagination-bottom"
                             activeClassName="selected"
+                            forcePage={currentPage - 1}
                         />
                     )}
                 </>

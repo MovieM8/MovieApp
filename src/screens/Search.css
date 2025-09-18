@@ -1,10 +1,14 @@
+main {
+    padding-top: 0;
+}
+
 .search.results {
   padding: 1rem;
 }
 
 .moviegrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1rem;
 }
 
@@ -27,8 +31,8 @@
 
 .moviegrid img {
   width: 100%;
-  height: 320px;
-  object-fit: cover;
+  height: 350px;
+  object-fit: fill;
 }
 
 .moviegrid h4 {
@@ -48,10 +52,19 @@
 .pagination {
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
+  /*margin-top: 1.5rem;*/
   gap: 0.25rem;
   list-style: none;
   padding: 0;
+}
+
+.pagination-bottom {
+    margin-top: 1.5rem; 
+}
+
+.pagination-top {
+    margin-top: 0rem;
+    margin-bottom: 1.5rem; 
 }
 
 .pagination li {
