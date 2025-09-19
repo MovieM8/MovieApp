@@ -145,3 +145,51 @@ export const searchMoviesByGenre = async (genreIds, page = 1) => {
         return { movies: [], totalPages: 0, currentPage: 1 };
     }
 };
+
+
+export const getMovieDetails = async (movieId) => {
+    const url = `${BASE_URL}/movie/${movieId}`;
+    try {
+        const res = await axios.get(url, {
+            params: { language: "en-US", append_to_response: "credits,recommendations" },
+            headers: {
+                accept: "application/json",
+                Authorization: `Bearer ${API_KEY}`,
+            },
+        });
+
+        const m = res.data;
+
+        return {
+            id: m.id,
+            title: m.title,
+            original_title: m.original_title,
+            genres: m.genres.map((g) => g.name),
+            original_language: m.original_language,
+            vote_average: m.vote_average ? m.vote_average.toFixed(1) : "N/A",
+            overview: m.overview,
+            popularity: m.popularity,
+            status: m.status,
+            release_date: m.release_date,
+            budget: m.budget,
+            cast: m.credits?.cast?.slice(0, 10).map((c) => ({
+                id: c.id,
+                name: c.name,
+                character: c.character,
+                profile: c.profile_path
+                    ? `https://image.tmdb.org/t/p/w200${c.profile_path}`
+                    : null,
+            })) || [],
+            recommendations: m.recommendations?.results?.slice(0, 5).map((rec) => ({
+                id: rec.id,
+                title: rec.title,
+                image: rec.poster_path
+                    ? `https://image.tmdb.org/t/p/w200${rec.poster_path}`
+                    : null,
+            })) || [],
+        };
+    } catch (err) {
+        console.error("Failed to get movie details:", err);
+        return null;
+    }
+};
