@@ -1,8 +1,14 @@
 
+
 .screenings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1rem;
+}
+
+.screenings-grid > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 .screening-card {

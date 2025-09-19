@@ -1,6 +1,7 @@
 import { useSearchMovies } from "../context/MovieSearchContext.jsx";
 import { useEffect } from "react";
-
+import Select from "react-select";
+import "./SearchAside.css";
 
 export default function SearchAside() {
     const { query, setQuery, runSearch, queryYear, setQueryYear, runSearchByYear, loadGenres, genres, selectedGenres, setSelectedGenres, runSearchByGenre } = useSearchMovies();
@@ -65,21 +66,20 @@ export default function SearchAside() {
 
             <form onSubmit={handleSubmitGenre} className="searchbygenre">
                 <label htmlFor="searchInputGenre">Search Movies By Genre:</label>
-                <select
+                <Select
                     id="searchInputGenre"
-                    value={selectedGenres}
-                    onChange={(e) => {
-                        const selected = Array.from(e.target.selectedOptions, (opt) => opt.value);
-                        setSelectedGenres(selected);
+                    isMulti
+                    options={genres.map((g) => ({ value: g.id, label: g.name }))}
+                    value={genres
+                        .filter((g) => selectedGenres.includes(g.id.toString()))
+                        .map((g) => ({ value: g.id, label: g.name }))}
+                    onChange={(selected) => {
+                        setSelectedGenres(selected.map((s) => s.value.toString()));
                     }}
-                    multiple
-                >
-                    {genres.map((genre) => (
-                        <option key={genre.id} value={genre.id}>
-                            {genre.name}
-                        </option>
-                    ))}
-                </select>
+                    className="genre-select"
+                    classNamePrefix="react-select"
+                    placeholder="Choose genres..."
+                />
 
                 <button type="submit">Search</button>
             </form>

@@ -3,7 +3,7 @@ import ReactPaginate from "react-paginate";
 import "./Search.css";
 
 export default function Search() {
-    const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear } = useSearchMovies();
+    const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear, runSearchByGenre, selectedGenres } = useSearchMovies();
 
     const handlePageClick = (event) => {
         if(query != ''){
@@ -11,6 +11,9 @@ export default function Search() {
         }
         else if (queryYear != '') {
             runSearchByYear(queryYear, event.selected + 1)
+        }
+        else if (selectedGenres.length > 0) {
+            runSearchByGenre(selectedGenres, event.selected + 1)
         }
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
