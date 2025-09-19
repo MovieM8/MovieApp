@@ -1,15 +1,15 @@
-import { useMovies } from "../context/MovieSearchContext.jsx";
+import { useSearchMovies } from "../context/MovieSearchContext.jsx";
 import ReactPaginate from "react-paginate";
 import "./Search.css";
 
 export default function Search() {
-    const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear } = useMovies();
+    const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear } = useSearchMovies();
 
     const handlePageClick = (event) => {
-        if(query != null){
+        if(query != ''){
             runSearch(query, event.selected + 1);
         }
-        else if (queryYear != null) {
+        else if (queryYear != '') {
             runSearchByYear(queryYear, event.selected + 1)
         }
         window.scrollTo({ top: 0, behavior: "smooth" });

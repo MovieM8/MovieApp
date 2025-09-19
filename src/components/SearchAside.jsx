@@ -1,18 +1,40 @@
-import { useMovies } from "../context/MovieSearchContext.jsx";
+import { useSearchMovies } from "../context/MovieSearchContext.jsx";
+import { useEffect } from "react";
+
 
 export default function SearchAside() {
-    const { query, setQuery, runSearch, queryYear, setQueryYear, runSearchByYear } = useMovies();
+    const { query, setQuery, runSearch, queryYear, setQueryYear, runSearchByYear, loadGenres, genres, selectedGenres, setSelectedGenres, runSearchByGenre } = useSearchMovies();
+
+    // Get the movie genres
+    useEffect(() => {
+        loadGenres();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setQueryYear(null);
-        runSearch(query, 1);
+        setQueryYear('');
+        setSelectedGenres([]);
+        if (query != '') {
+            runSearch(query, 1);
+        }
     };
 
     const handleSubmitYear = (e) => {
         e.preventDefault();
-        setQuery(null);
-        runSearchByYear(queryYear, 1);
+        setQuery('');
+        setSelectedGenres([]);
+        if (queryYear != '') {
+            runSearchByYear(queryYear, 1);
+        }
+    };
+
+    const handleSubmitGenre = (e) => {
+        e.preventDefault();
+        setQuery("");
+        setQueryYear("");
+        if (selectedGenres.length > 0) {
+            runSearchByGenre(selectedGenres, 1);
+        }
     };
 
     return (
@@ -38,6 +60,27 @@ export default function SearchAside() {
                     onChange={(e) => setQueryYear(e.target.value)}
                     placeholder="Enter search year..."
                 />
+                <button type="submit">Search</button>
+            </form>
+
+            <form onSubmit={handleSubmitGenre} className="searchbygenre">
+                <label htmlFor="searchInputGenre">Search Movies By Genre:</label>
+                <select
+                    id="searchInputGenre"
+                    value={selectedGenres}
+                    onChange={(e) => {
+                        const selected = Array.from(e.target.selectedOptions, (opt) => opt.value);
+                        setSelectedGenres(selected);
+                    }}
+                    multiple
+                >
+                    {genres.map((genre) => (
+                        <option key={genre.id} value={genre.id}>
+                            {genre.name}
+                        </option>
+                    ))}
+                </select>
+
                 <button type="submit">Search</button>
             </form>
         </aside>

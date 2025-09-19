@@ -1,8 +1,10 @@
 import { createContext, useContext, useState } from "react";
 import { searchMovies } from "../services/TMDB.js";
 import { searchMoviesByYear } from "../services/TMDB.js";
+import { getGenres } from "../services/TMDB.js";
+import { searchMoviesByGenre } from "../services/TMDB.js";
 
-const MovieContext = createContext();
+const MovieSearchContext = createContext();
 
 export function MovieSearchProvider({ children }) {
     const [query, setQuery] = useState("");
@@ -11,6 +13,8 @@ export function MovieSearchProvider({ children }) {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [queryYear, setQueryYear] = useState("");
+    const [genres, setGenres] = useState([]);
+    const [selectedGenres, setSelectedGenres] = useState([]);
 
     const runSearch = async (searchQuery, page = 1) => {
         if (!searchQuery) return;
@@ -36,8 +40,26 @@ export function MovieSearchProvider({ children }) {
         setLoading(false);
     };
 
+    const loadGenres = async () => {
+        const { genres } = await getGenres();
+        setGenres(genres);
+    };
+
+    const runSearchByGenre = async (genres, page = 1) => {
+        if (!genres.length) return;
+        setLoading(true);
+
+        const { movies, totalPages, currentPage } = await searchMoviesByGenre(genres, page);
+        setMovies(movies);
+        setPageCount(totalPages);
+        setCurrentPage(currentPage);
+
+        setLoading(false);
+    };
+
+
     return (
-        <MovieContext.Provider
+        <MovieSearchContext.Provider
             value={{
                 query,
                 setQuery,
@@ -49,13 +71,18 @@ export function MovieSearchProvider({ children }) {
                 queryYear,
                 setQueryYear,
                 runSearchByYear,
+                loadGenres,
+                genres,
+                selectedGenres,
+                setSelectedGenres,
+                runSearchByGenre,
             }}
         >
             {children}
-        </MovieContext.Provider>
+        </MovieSearchContext.Provider>
     );
 }
 
-export function useMovies() {
-    return useContext(MovieContext);
+export function useSearchMovies() {
+    return useContext(MovieSearchContext);
 }
