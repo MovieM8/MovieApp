@@ -172,6 +172,9 @@ export const getMovieDetails = async (movieId) => {
             status: m.status,
             release_date: m.release_date,
             budget: m.budget,
+            image: m.poster_path
+                ? `https://image.tmdb.org/t/p/w300${m.poster_path}`
+                : null,
             cast: m.credits?.cast?.slice(0, 10).map((c) => ({
                 id: c.id,
                 name: c.name,
@@ -180,7 +183,7 @@ export const getMovieDetails = async (movieId) => {
                     ? `https://image.tmdb.org/t/p/w200${c.profile_path}`
                     : null,
             })) || [],
-            recommendations: m.recommendations?.results?.slice(0, 5).map((rec) => ({
+            recommendations: m.recommendations?.results?.slice(0, 8).map((rec) => ({
                 id: rec.id,
                 title: rec.title,
                 image: rec.poster_path

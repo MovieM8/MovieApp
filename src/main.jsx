@@ -17,6 +17,7 @@ import Groups from './screens/Groups.jsx';*/
 import DeleteAccount from './screens/DeleteAccount.jsx';
 import { TheatreProvider } from "./context/TheatreContext.jsx";
 import { MovieSearchProvider } from "./context/MovieSearchContext.jsx";
+import MoviePage from './screens/MoviePage.jsx';
 
 // Create router
 const router = createBrowserRouter([
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/screeningtimes", element: <ScreeningTimes /> },
       { path: "/search", element: <MovieSearch /> },
+      { path: "/movie/:id", element: <MoviePage /> },
 
       /*{ path: "/reviews", element: <Reviews /> },
       { path: "/groups", element: <Groups /> },*/

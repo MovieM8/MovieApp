@@ -85,6 +85,12 @@ export default function UserProvider({ children }) {
         const tmdbid = movieObj.id;
         const title = movieObj.title;
         if (isFavorite(tmdbid)) return; // Prevent duplicates
+
+        // Optimistically update state
+        //const newFav = { movieid: tmdbid, movie: title };
+        //setFavorites((prev) => [...prev, newFav]);
+        //if (options.optimistic) setFavorites(prev => [...prev, movieObj]);
+
         try {
             const res = await axios.post(
                 `${API_URL}/favorites`,
@@ -99,6 +105,10 @@ export default function UserProvider({ children }) {
 
     const removeFavorite = async (movieid) => {
         if (!user?.token) return alert("Login required to remove favorites");
+
+        // Optimistically update state
+        //setFavorites((prev) => prev.filter((f) => f.movieid !== Number(movieid)));
+
         try {
             await axios.delete(`${API_URL}/favorites/${movieid}`, {
                 headers: { Authorization: `Bearer ${user.token}` },

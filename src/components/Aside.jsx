@@ -1,28 +1,16 @@
-import { Link, useLocation } from "react-router-dom";
-/*import { useState, useEffect } from "react";
-import { fetchTheatres } from "../services/Finnkino.js";
-import { useTheatre } from "../context/TheatreContext.jsx";*/
+import { Link, useLocation, useParams} from "react-router-dom"
 import "./Aside.css";
 import ScreeningTimeMenu from "./ScreeningAside.jsx"
 import SearchAside from "./SearchAside.jsx"
+import MovieAside from "./MovieAside.jsx";
 
 export default function Aside() {
     const location = useLocation();
+    const params = useParams();
     const isMyProfileSection = location.pathname.startsWith("/myprofile");
-    /*const [theatres, setTheatres] = useState([]);
-    const { selectedTheatre, setSelectedTheatre } = useTheatre();
+    const isMoviePage = location.pathname.startsWith("/movie");
 
-    useEffect(() => {
-        const loadTheatres = async () => {
-            const data = await fetchTheatres();
-            setTheatres(data);
-        };
-        loadTheatres();
-    }, []);
-
-    const handleChange = (e) => {
-        setSelectedTheatre(e.target.value);
-    };*/
+    const movieFromState = location.state?.movie;
 
     // Define content for different pages
     const renderAsideContent = () => {
@@ -35,29 +23,12 @@ export default function Aside() {
                     <li><Link to="/myprofile/deleteaccount">Delete Account</Link></li>
                 </ul>
             )
-        }
-        else {
+        } else if (isMoviePage) {
+            return <MovieAside movie={movieFromState} movieId={params.id} />;
+        } else {
             switch (location.pathname) {
                 case "/screeningtimes":
                     return <ScreeningTimeMenu />;
-                /*return (
-                    <div>
-                        <label htmlFor="theatreSelect">Choose a theatre:</label>
-                        <select
-                            id="theatreSelect"
-                            value={selectedTheatre}
-                            onChange={handleChange}
-                        >
-                            <option value="">-- Select --</option>
-                            {theatres.map((theatre) => (
-                                <option key={theatre.id} value={theatre.id}>
-                                    {theatre.name}
-                                </option>
-                            ))}
-                        </select>
-                        <p>Movies for the next week are shown.</p>
-                    </div>
-                );*/
                 case "/favorites":
                     return <p>Manage your favorite movies here.</p>;
                 case "/myreviews":

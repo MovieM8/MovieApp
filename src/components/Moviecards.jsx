@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useUser } from "../context/useUser.js";
 import "./Moviecards.css";
 
@@ -9,23 +10,28 @@ export default function MovieCards({ movies }) {
         <div className="moviegrid">
             {movies.map((movie) => {
                 const favorite = isFavorite(movie.id);
-
                 return (
                     <div key={movie.id} className="movie-card">
-                        {movie.image && <img src={movie.image} alt={movie.title} />}
-                        <h4>{movie.title}</h4>
-                        <p><strong>Rating:</strong> {movie.rating ? movie.rating.toFixed(1) : "N/A"}</p>
-                        <p><strong>Release date:</strong> {movie.release_date}</p>
-                        <p><strong>Description:</strong> {movie.overview}</p>
-
+                        <Link 
+                        to={`/movie/${movie.id}`} 
+                        state={{ movie }}
+                        className="movie-link">
+                            {movie.image && <img src={movie.image} alt={movie.title} />}
+                            <h4>{movie.title}</h4>
+                            <p><strong>Rating:</strong> {movie.rating ? movie.rating.toFixed(1) : "N/A"}</p>
+                            <p><strong>Release date:</strong> {movie.release_date}</p>
+                            <p><strong>Description:</strong> {movie.overview}</p>
+                        </Link>
                         {user?.token && (
                             <button
                                 className={`favorite-btn ${isFavorite(movie.id) ? "favorited" : ""}`}
-                                onClick={() =>
+                                onClick={(e) => {
+                                    e.stopPropagation(); // prevent navigation
+                                    e.preventDefault(); // prevent link click
                                     favorite
                                         ? removeFavorite(movie.id)
-                                        : addFavorite(movie)
-                                }
+                                        : addFavorite(movie);
+                                }}
                             >
                                 {favorite ? "★ Favorited" : "+ Favorites"}
                             </button>

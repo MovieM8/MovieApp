@@ -1,0 +1,36 @@
+.movie-aside ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.movie-aside li {
+  margin-bottom: 0.75rem;
+}
+
+.aside-btn {
+  display: block;
+  width: 100%;
+  margin: 0.25rem 0;
+  padding: 0.6rem;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.aside-btn:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.aside-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.aside-btn.favorited {
+  background: #28a745; /* green for favorited */
+}

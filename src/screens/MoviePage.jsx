@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovieDetails } from "../services/TMDB.js";
+import "./MoviePage.css";
 
 export default function MovieDetails() {
     const { id } = useParams();
@@ -22,16 +23,23 @@ export default function MovieDetails() {
 
     return (
         <div className="movie-details">
-            <h2>{movie.title}</h2>
-            <p><strong>Original Title:</strong> {movie.original_title}</p>
-            <p><strong>Genres:</strong> {movie.genres.join(", ")}</p>
-            <p><strong>Language:</strong> {movie.original_language}</p>
-            <p><strong>Rating:</strong> {movie.vote_average}</p>
-            <p><strong>Overview:</strong> {movie.overview}</p>
-            <p><strong>Popularity:</strong> {movie.popularity}</p>
-            <p><strong>Status:</strong> {movie.status}</p>
-            <p><strong>Release Date:</strong> {movie.release_date}</p>
-            <p><strong>Budget:</strong> ${movie.budget.toLocaleString()}</p>
+            <div className="movie-header">
+                <div className="movie-poster">
+                    {movie.image && <img src={movie.image} alt={movie.title} />}
+                </div>
+                <div className="movie-info">
+                    <h2>{movie.title}</h2>
+                    <p><strong>Original Title:</strong> {movie.original_title}</p>
+                    <p><strong>Genres:</strong> {movie.genres.join(", ")}</p>
+                    <p><strong>Language:</strong> {movie.original_language}</p>
+                    <p><strong>Rating:</strong> {movie.vote_average}</p>
+                    <p><strong>Popularity:</strong> {movie.popularity}</p>
+                    <p><strong>Status:</strong> {movie.status}</p>
+                    <p><strong>Release Date:</strong> {movie.release_date}</p>
+                    <p><strong>Budget:</strong> ${movie.budget.toLocaleString()}</p>
+                    <p><strong>Overview:</strong> {movie.overview}</p>
+                </div>
+            </div>
 
             <h3>Cast</h3>
             <div className="cast-grid">
