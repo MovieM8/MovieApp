@@ -91,3 +91,31 @@
   color: #fff;
   border-color: #007bff;
 }
+
+/* favorite button */
+.favorite-btn {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff4757;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.favorite-btn:hover {
+  background: #e84118;
+}
+
+.movie-card:hover .favorite-btn {
+  display: block;
+}
+
+.favorite-btn.favorited {
+  background: #28a745; /* green if already favorited */
+}

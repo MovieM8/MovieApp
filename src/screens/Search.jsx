@@ -1,12 +1,15 @@
 import { useSearchMovies } from "../context/MovieSearchContext.jsx";
+import { useUser } from "../context/useUser.js";
 import ReactPaginate from "react-paginate";
 import "./Search.css";
 
 export default function Search() {
     const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear, runSearchByGenre, selectedGenres } = useSearchMovies();
 
+    const { user, addToFavorites, removeFromFavorites, isFavorite } = useUser();
+
     const handlePageClick = (event) => {
-        if(query != ''){
+        if (query != '') {
             runSearch(query, event.selected + 1);
         }
         else if (queryYear != '') {
@@ -45,17 +48,25 @@ export default function Search() {
 
                     <div className="moviegrid">
                         {movies.map((movie) => (
-                            <div key={movie.id}>
-                                {movie.image && (
-                                    <img
-                                        src={movie.image}
-                                        alt={movie.title}
-                                    />
-                                )}
+                            <div key={movie.id} className="movie-card">
+                                {movie.image && <img src={movie.image} alt={movie.title} />}
                                 <h4>{movie.title}</h4>
                                 <p><strong>Rating:</strong> {movie.rating ? movie.rating.toFixed(1) : "N/A"}</p>
                                 <p><strong>Release date:</strong> {movie.release_date}</p>
                                 <p><strong>Description:</strong> {movie.overview}</p>
+
+                                {user?.token && (
+                                    <button
+                                        className={`favorite-btn ${isFavorite(movie.id) ? "favorited" : ""}`}
+                                        onClick={() =>
+                                            isFavorite(movie.id)
+                                                ? removeFromFavorites(movie.id)
+                                                : addToFavorites(movie)
+                                        }
+                                    >
+                                        {isFavorite(movie.id) ? "★ Favorited" : "+ Favorites"}
+                                    </button>
+                                )}
                             </div>
                         ))}
                     </div>
