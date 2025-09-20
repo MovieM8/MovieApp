@@ -1,12 +1,10 @@
 import { useSearchMovies } from "../context/MovieSearchContext.jsx";
-import { useUser } from "../context/useUser.js";
 import ReactPaginate from "react-paginate";
 import "./Search.css";
+import MovieCards from "../components/Moviecards.jsx"
 
 export default function Search() {
     const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear, runSearchByGenre, selectedGenres } = useSearchMovies();
-
-    const { user, addFavorite, removeFavorite, isFavorite } = useUser();
 
     const handlePageClick = (event) => {
         if (query != '') {
@@ -46,34 +44,8 @@ export default function Search() {
                         />
                     )}
 
-                    <div className="moviegrid">
-                        {movies.map((movie) => {
-                            const favorite = isFavorite(movie.id);
-
-                            return (
-                            <div key={movie.id} className="movie-card">
-                                {movie.image && <img src={movie.image} alt={movie.title} />}
-                                <h4>{movie.title}</h4>
-                                <p><strong>Rating:</strong> {movie.rating ? movie.rating.toFixed(1) : "N/A"}</p>
-                                <p><strong>Release date:</strong> {movie.release_date}</p>
-                                <p><strong>Description:</strong> {movie.overview}</p>
-
-                                {user?.token && (
-                                    <button
-                                        className={`favorite-btn ${isFavorite(movie.id) ? "favorited" : ""}`}
-                                        onClick={() =>
-                                            favorite
-                                                ? removeFavorite(movie.id)
-                                                : addFavorite(movie)
-                                        }
-                                    >
-                                        {favorite ? "★ Favorited" : "+ Favorites"}
-                                    </button>
-                                )}
-                            </div>
-                            );
-})}
-                    </div>
+                    <MovieCards movies={movies} />
+                    
 
                     {pageCount > 1 && (
                         <ReactPaginate

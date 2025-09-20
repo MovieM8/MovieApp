@@ -4,7 +4,7 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 export const searchMovies = async (query, page = 1) => {
-    const url =`${BASE_URL}/search/movie`
+    const url = `${BASE_URL}/search/movie`
     try {
         const res = await axios.get(url, {
             params: {
@@ -45,7 +45,7 @@ export const searchMovies = async (query, page = 1) => {
 };
 
 export const searchMoviesByYear = async (queryYear, page = 1) => {
-    const url =`${BASE_URL}/discover/movie`
+    const url = `${BASE_URL}/discover/movie`
     try {
         const res = await axios.get(url, {
             params: {
@@ -84,7 +84,7 @@ export const searchMoviesByYear = async (queryYear, page = 1) => {
 };
 
 export const getGenres = async () => {
-    const url =`${BASE_URL}/genre/movie/list?language=en'`
+    const url = `${BASE_URL}/genre/movie/list?language=en'`
     try {
         const res = await axios.get(url, {
             headers: {
@@ -164,11 +164,11 @@ export const getMovieDetails = async (movieId) => {
             id: m.id,
             title: m.title,
             original_title: m.original_title,
-            genres: m.genres.map((g) => g.name),
+            genres: m.genres.map((g) => g.name) || [],
             original_language: m.original_language,
             vote_average: m.vote_average ? m.vote_average.toFixed(1) : "N/A",
             overview: m.overview,
-            popularity: m.popularity,
+            popularity: m.popularity ? m.popularity.toFixed(1) : "N/A",
             status: m.status,
             release_date: m.release_date,
             budget: m.budget,
@@ -190,6 +190,39 @@ export const getMovieDetails = async (movieId) => {
         };
     } catch (err) {
         console.error("Failed to get movie details:", err);
+        return null;
+    }
+};
+
+export const getMovieInfo = async (movieId) => {
+    const url = `${BASE_URL}/movie/${movieId}`;
+    try {
+        const res = await axios.get(url, {
+            params: { language: "en-US" },
+            headers: {
+                accept: "application/json",
+                Authorization: `Bearer ${API_KEY}`,
+            },
+        });
+
+        const m = res.data;
+
+        if (!m) return null;
+
+        return {
+            id: m.id,
+            title: m.title,
+            original_title: m.original_title,
+            release_date: m.release_date,
+            overview: m.overview,
+            popularity: m.popularity,
+            rating: m.vote_average,
+            image: m.poster_path
+                ? `https://image.tmdb.org/t/p/w300${m.poster_path}`
+                : null,
+        };
+    } catch (err) {
+        console.error("Failed to get movie info:", err);
         return null;
     }
 };

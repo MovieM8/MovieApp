@@ -1,52 +1,3 @@
-/*main {
-    padding-top: 0;
-}*/
-
-.search.results {
-  padding: 1rem;
-}
-
-.moviegrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.moviegrid > div {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.moviegrid > div:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-}
-
-.moviegrid img {
-  width: 100%;
-  height: 350px;
-  object-fit: fill;
-}
-
-.moviegrid h4 {
-  margin: 0.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.moviegrid p {
-  margin: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  color: #444;
-  line-height: 1.3;
-}
 
 /* Pagination styling */
 .pagination {
@@ -90,32 +41,4 @@
   background: #007bff;
   color: #fff;
   border-color: #007bff;
-}
-
-/* favorite button */
-.favorite-btn {
-  display: none;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: #ff4757;
-  color: #fff;
-  border: none;
-  padding: 6px 10px;
-  font-size: 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.favorite-btn:hover {
-  background: #e84118;
-}
-
-.movie-card:hover .favorite-btn {
-  display: block;
-}
-
-.favorite-btn.favorited {
-  background: #28a745; /* green if already favorited */
 }

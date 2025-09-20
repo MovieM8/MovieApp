@@ -9,7 +9,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './screens/NotFound.jsx';
 import Home from './screens/Home.jsx';
 import MyProfile from './screens/Myprofile.jsx';
-/*import Favorites from './screens/Favorites.jsx';*/
+import Favorites from './screens/Favorites.jsx';
 import ScreeningTimes from './screens/ScreeningTimes.jsx';
 import MovieSearch from './screens/Search.jsx';
 /*import Reviews from './screens/Reviews.jsx';
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
         children: [
-          //{ path: "favorites", element: <Favorites /> },
+          { path: "favorites", element: <Favorites /> },
           //{ path: "myreviews", element: <MyReviews /> },
           //{ path: "mygroups", element: <MyGroups /> },
           { path: "deleteaccount", element: <DeleteAccount /> },
