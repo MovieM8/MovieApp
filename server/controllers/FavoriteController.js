@@ -3,11 +3,22 @@ import { ApiError } from "../helper/ApiError.js";
 
 const createFavorite = async (req, res, next) => {
     try {
-        const userId = req.user.id;
+        const userId = req.user?.id;
+        if (!userId) return next(new ApiError("User not authenticated", 401));
         const { tmdbid, movie, sharelink } = req.body;
 
         if (!tmdbid || !movie) {
             return next(new ApiError("tmdbid and movie are required", 400));
+        }
+
+        try {
+            // Prevent duplicates
+            const existing = await getFavoritesByUser(userId);
+            if (existing.some((f) => f.movieid === tmdbid)) {
+                return res.status(200).json({ message: "Already in favorites" });
+            }
+        } catch (err) {
+            next(err);
         }
 
         const favorite = await addFavorite(userId, tmdbid, movie, sharelink);

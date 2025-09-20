@@ -32,9 +32,7 @@ const addFavorite = async (userId, tmdbid, movie, sharelink = null) => {
 // Get all favorites for user
 const getFavoritesByUser = async (userId) => {
     const result = await pool.query(
-        `SELECT f.id, f.movieid, f.movie, f.sharelink
-         FROM favorites f
-         WHERE f.user_id = $1`,
+        "SELECT * FROM favorites WHERE user_id = $1",
         [userId]
     );
     return result.rows;
@@ -48,5 +46,7 @@ const removeFavorite = async (userId, movieId) => {
     );
     return result.rows[0];
 };
+
+
 
 export { addFavorite, getFavoritesByUser, removeFavorite };

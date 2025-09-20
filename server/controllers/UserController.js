@@ -56,7 +56,7 @@ const signIn = async (req, res, next) => {
             if (!isMatch) {
                 return next(new ApiError("Invalid password", 401));
             }
-            const token = jwt.sign({ user: dbUser.email }, process.env.JWT_SECRET_KEY);
+            const token = jwt.sign({id: dbUser.id, user: dbUser.email }, process.env.JWT_SECRET_KEY);
             res.status(200).json({
                 id: dbUser.id,
                 username: dbUser.username,

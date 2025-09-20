@@ -11,7 +11,7 @@ const auth = (req, res, next) => {
         if (err) {
             return res.status(401).json({ message: 'Failed to authenticate token' });
         }
-        req.user = { email: decoded.user };
+        req.user = { id: decoded.id, email: decoded.user };
         next();
     });
 } 

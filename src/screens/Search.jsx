@@ -6,7 +6,7 @@ import "./Search.css";
 export default function Search() {
     const { movies, loading, pageCount, runSearch, query, currentPage, queryYear, runSearchByYear, runSearchByGenre, selectedGenres } = useSearchMovies();
 
-    const { user, addToFavorites, removeFromFavorites, isFavorite } = useUser();
+    const { user, addFavorite, removeFavorite, isFavorite } = useUser();
 
     const handlePageClick = (event) => {
         if (query != '') {
@@ -47,7 +47,10 @@ export default function Search() {
                     )}
 
                     <div className="moviegrid">
-                        {movies.map((movie) => (
+                        {movies.map((movie) => {
+                            const favorite = isFavorite(movie.id);
+
+                            return (
                             <div key={movie.id} className="movie-card">
                                 {movie.image && <img src={movie.image} alt={movie.title} />}
                                 <h4>{movie.title}</h4>
@@ -59,16 +62,17 @@ export default function Search() {
                                     <button
                                         className={`favorite-btn ${isFavorite(movie.id) ? "favorited" : ""}`}
                                         onClick={() =>
-                                            isFavorite(movie.id)
-                                                ? removeFromFavorites(movie.id)
-                                                : addToFavorites(movie)
+                                            favorite
+                                                ? removeFavorite(movie.id)
+                                                : addFavorite(movie)
                                         }
                                     >
-                                        {isFavorite(movie.id) ? "★ Favorited" : "+ Favorites"}
+                                        {favorite ? "★ Favorited" : "+ Favorites"}
                                     </button>
                                 )}
                             </div>
-                        ))}
+                            );
+})}
                     </div>
 
                     {pageCount > 1 && (

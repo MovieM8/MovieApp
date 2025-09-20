@@ -47,7 +47,7 @@ export default function UserProvider({ children }) {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${user.token}`,
                 },
-                
+
                 data: { user },
             });
 
@@ -76,12 +76,19 @@ export default function UserProvider({ children }) {
         }
     };
 
-     const addFavorite = async (tmdbid, movie, sharelink = null) => {
+    const isFavorite = (tmdbid) => {
+        return favorites.some((f) => f.movieid === tmdbid);
+    };
+
+    const addFavorite = async (movieObj, sharelink = null) => {
         if (!user?.token) return alert("Login required to add favorites");
+        const tmdbid = movieObj.id;
+        const title = movieObj.title;
+        if (isFavorite(tmdbid)) return; // Prevent duplicates
         try {
             const res = await axios.post(
                 `${API_URL}/favorites`,
-                { tmdbid, movie, sharelink },
+                { tmdbid, movie: title, sharelink },
                 { headers: { Authorization: `Bearer ${user.token}` } }
             );
             setFavorites((prev) => [...prev, res.data]);
@@ -113,17 +120,18 @@ export default function UserProvider({ children }) {
 
     return (
         <UserContext.Provider value={{
-                user,
-                setUser,
-                signUp,
-                signIn,
-                logout,
-                deleteAccount,
-                favorites,
-                loadFavorites,
-                addFavorite,
-                removeFavorite,
-            }}
+            user,
+            setUser,
+            signUp,
+            signIn,
+            logout,
+            deleteAccount,
+            favorites,
+            loadFavorites,
+            addFavorite,
+            removeFavorite,
+            isFavorite,
+        }}
         >
             {children}
         </UserContext.Provider>
