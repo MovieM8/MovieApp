@@ -131,7 +131,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO dbuser;
 GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO dbuser;
 
 
--- Insert 11 users
+-- Insert 11 users (@example users password is Password123)
 INSERT INTO users (email, password, username) VALUES
 ('alice@example.com', '$2b$10$CywVweSsgWAgSr2dHLd3WujvQY77Vh86TWKSI8kf8waaG.5ueHtIC', 'alice'),
 ('bob@example.com', '$2b$10$CywVweSsgWAgSr2dHLd3WujvQY77Vh86TWKSI8kf8waaG.5ueHtIC', 'bob'),

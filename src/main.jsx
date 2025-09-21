@@ -19,6 +19,7 @@ import { TheatreProvider } from "./context/TheatreContext.jsx";
 import { MovieSearchProvider } from "./context/MovieSearchContext.jsx";
 import { MovieProvider } from "./context/MovieContext.jsx"
 import MoviePage from './screens/MoviePage.jsx';
+import { ReviewProvider } from "./context/ReviewContext.jsx";
 
 // Create router
 const router = createBrowserRouter([
@@ -26,7 +27,9 @@ const router = createBrowserRouter([
     element: (
       <UserProvider>
         <MovieProvider>
-          <App /> {/* App acts as the layout with Header, Navbar, Aside */}
+          <ReviewProvider>
+            <App /> {/* App acts as the layout with Header, Navbar, Aside */}
+          </ReviewProvider>
         </MovieProvider>
       </UserProvider>
     ),
