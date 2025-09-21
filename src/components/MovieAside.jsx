@@ -3,6 +3,8 @@ import { useUser } from "../context/useUser.js";
 import { useEffect, useState } from "react";
 import { getMovieInfo } from "../services/TMDB.js";
 import { useMovie } from "../context/MovieContext.jsx";
+import ReviewForm from "./ReviewForm.jsx";
+import { useReviews } from "../context/ReviewContext.jsx";
 import "./MovieAside.css";
 
 export default function MovieAside({ movieId }) {
@@ -15,6 +17,8 @@ export default function MovieAside({ movieId }) {
     //const favorite = isFavorite(id);
     //const movieId = Number(id);
     //const favorite = isFavorite(movieId);
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const { fetchMovieReviews  } = useReviews();
 
     // Use context movie if available, else fetch
     useEffect(() => {
@@ -40,6 +44,21 @@ export default function MovieAside({ movieId }) {
         }
     };
 
+    const handleGiveReviw = () => {
+        if (!fetchedMovie) return;
+        setShowReviewModal(true);
+    };
+
+    const handleReviewAdded = async () => {
+        try {
+            await fetchMovieReviews(id);
+        } catch (err) {
+            console.error("Failed to refresh reviews", err);
+        }
+    };
+
+
+
     const favorite = isFavorite(id);
 
     return (
@@ -60,8 +79,12 @@ export default function MovieAside({ movieId }) {
                     )}
                 </li>
                 <li>
-                    <button className="aside-btn" disabled>
-                        Give Review (coming soon)
+                    <button
+                        onClick={handleGiveReviw}
+                        className="aside-btn"
+                        disabled={!user?.token}
+                    >
+                        Give Review
                     </button>
                 </li>
                 <li>
@@ -70,6 +93,18 @@ export default function MovieAside({ movieId }) {
                     </button>
                 </li>
             </ul>
+
+            {/* Render Review Form */}
+            {showReviewModal && fetchedMovie && (
+                <ReviewForm
+                    movieId={id}
+                    movieTitle={fetchedMovie.title}
+                    onClose={() => setShowReviewModal(false)}
+                    onReviewAdded={handleReviewAdded}
+
+                />
+            )}
+
         </div>
     );
 }

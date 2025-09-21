@@ -14,7 +14,7 @@ export default function MovieDetails() {
     const { setSelectedMovie } = useMovie();
     const [showForm, setShowForm] = useState(false);
 
-    const { reviews, fetchMovieReviews } = useReviews();
+    const { fetchMovieReviews } = useReviews();
 
     useEffect(() => {
         const fetchData = async () => {
