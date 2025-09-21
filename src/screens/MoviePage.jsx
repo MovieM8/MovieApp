@@ -1,22 +1,31 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovieDetails } from "../services/TMDB.js";
+import { useMovie } from "../context/MovieContext.jsx"
 import "./MoviePage.css";
 
 export default function MovieDetails() {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { selectedMovie, setSelectedMovie } = useMovie();
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             const data = await getMovieDetails(id);
             setMovie(data);
+            setSelectedMovie(data);
             setLoading(false);
         };
         fetchData();
-    }, [id]);
+    }, [id, setSelectedMovie]);
+
+    /*useEffect(() => {
+        if (movie) {
+            setSelectedMovie(movie);
+        }
+    }, [movie, setSelectedMovie]);*/
 
     if (loading) return <p>Loading...</p>;
     if (!movie) return <p>Movie not found.</p>;

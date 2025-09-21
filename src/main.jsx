@@ -17,6 +17,7 @@ import Groups from './screens/Groups.jsx';*/
 import DeleteAccount from './screens/DeleteAccount.jsx';
 import { TheatreProvider } from "./context/TheatreContext.jsx";
 import { MovieSearchProvider } from "./context/MovieSearchContext.jsx";
+import { MovieProvider } from "./context/MovieContext.jsx"
 import MoviePage from './screens/MoviePage.jsx';
 
 // Create router
@@ -24,7 +25,9 @@ const router = createBrowserRouter([
   {
     element: (
       <UserProvider>
-        <App /> {/* App acts as the layout with Header, Navbar, Aside */}
+        <MovieProvider>
+          <App /> {/* App acts as the layout with Header, Navbar, Aside */}
+        </MovieProvider>
       </UserProvider>
     ),
     children: [

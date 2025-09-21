@@ -2,27 +2,31 @@ import { useParams, Link } from "react-router-dom";
 import { useUser } from "../context/useUser.js";
 import { useEffect, useState } from "react";
 import { getMovieInfo } from "../services/TMDB.js";
+import { useMovie } from "../context/MovieContext.jsx";
 import "./MovieAside.css";
 
-export default function MovieAside({ movie, movieId }) {
-    //const { id } = useParams();
+export default function MovieAside({ movieId }) {
+    const { id: routeId } = useParams();
     const { addFavorite, removeFavorite, isFavorite, user } = useUser();
+    const { selectedMovie } = useMovie();
 
-    const [fetchedMovie, setFetchedMovie] = useState(movie || null);
-    const id = Number(movieId);
+    const [fetchedMovie, setFetchedMovie] = useState(null);
+    const id = Number(movieId || routeId); ///support both props and URL param
     //const favorite = isFavorite(id);
     //const movieId = Number(id);
     //const favorite = isFavorite(movieId);
 
+    // Use context movie if available, else fetch
     useEffect(() => {
-        // If no movie data is passed, fetch it
-        if (!movie && movieId) {
+        if (selectedMovie && selectedMovie.id === id) {
+            setFetchedMovie(selectedMovie);
+        } else if (id) {
             (async () => {
-                const data = await getMovieInfo(movieId);
+                const data = await getMovieInfo(id);
                 if (data) setFetchedMovie(data);
             })();
         }
-    }, [movie, movieId]);
+    }, [id, selectedMovie]);
 
     const handleToggleFavorite = () => {
         if (!fetchedMovie) return;

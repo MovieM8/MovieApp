@@ -24,7 +24,7 @@ export default function Aside() {
                 </ul>
             )
         } else if (isMoviePage) {
-            return <MovieAside movie={movieFromState} movieId={params.id} />;
+            return <MovieAside movieId={params.id} />;
         } else {
             switch (location.pathname) {
                 case "/screeningtimes":
