@@ -57,26 +57,31 @@ export default function MovieAside({ movieId }) {
         }
     };
 
+    let favo 
+    if (user?.token) {
+        favo = isFavorite(id);
+    } else {
+        favo = false
+    }
 
-
-    const favorite = isFavorite(id);
+    //const favorite = isFavorite(id);
+    const favorite = favo
 
     return (
         <div className="movie-aside">
             <ul>
                 <li>
-                    {user?.token ? (
+                     {!user?.token ? (<p><Link to="/signin">Sign in</Link> to manage movie</p> ) : (<p></p>)}
+                </li>
+                <li>
                         <button
                             onClick={handleToggleFavorite}
                             className={`aside-btn ${favorite ? "favorited" : ""}`}
+                            disabled={!user?.token}
                         >
                             {favorite ? "★ Remove from Favorites" : "+ Add to Favorites"}
                         </button>
-                    ) : (
-                        <p>
-                            <Link to="/signin">Sign in</Link> to manage favorites
-                        </p>
-                    )}
+    
                 </li>
                 <li>
                     <button
