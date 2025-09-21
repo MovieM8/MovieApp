@@ -1,0 +1,148 @@
+.review-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.review-header strong {
+  color: #222;
+}
+
+.review-rating {
+  font-size: 1rem;
+  color: #f39c12;
+  margin-bottom: 0.5rem;
+}
+
+.review-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0.25rem 0 0.75rem;
+  color: #333;
+}
+
+/* Delete button initially hidden */
+.delete-btn {
+  display: none;
+  position: absolute;
+  bottom: 0.75rem;
+  right: 1rem;
+  padding: 0.4rem 0.75rem;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  z-index: 1;
+}
+
+.review-card:hover .delete-btn {
+  display: inline-block;
+}
+
+.delete-btn:hover {
+  background: #f70d24;
+}
+
+/* Optional: spacing for small screens */
+@media (max-width: 480px) {
+  .review-list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+
+
+/*.review-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.review-header strong {
+  color: #222;
+}
+
+.review-rating {
+  font-size: 1rem;
+  color: #f39c12;
+  margin-bottom: 0.5rem;
+}
+
+.review-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin: 0.25rem 0 0.75rem;
+  color: #333;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+/* Optional: Add spacing inside the review list for small screens *//*
+@media (max-width: 480px) {
+  .review-list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+*/

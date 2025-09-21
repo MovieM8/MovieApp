@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import { getMovieDetails } from "../services/TMDB.js";
 import { useMovie } from "../context/MovieContext.jsx"
 import "./MoviePage.css";
+import ReviewList from "../components/ReviewList.jsx";
+import ReviewForm from "../components/ReviewForm.jsx";
 
 export default function MovieDetails() {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
-    const { selectedMovie, setSelectedMovie } = useMovie();
+    const { setSelectedMovie } = useMovie();
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,15 +20,10 @@ export default function MovieDetails() {
             setMovie(data);
             setSelectedMovie(data);
             setLoading(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
         };
         fetchData();
     }, [id, setSelectedMovie]);
-
-    /*useEffect(() => {
-        if (movie) {
-            setSelectedMovie(movie);
-        }
-    }, [movie, setSelectedMovie]);*/
 
     if (loading) return <p>Loading...</p>;
     if (!movie) return <p>Movie not found.</p>;
@@ -69,6 +67,22 @@ export default function MovieDetails() {
                         <p>{rec.title}</p>
                     </Link>
                 ))}
+            </div>
+
+            <div className="moviereviews">
+                <button className="ReviewAreaGiveReview" onClick={() => setShowForm(true)}>Give Review</button>
+
+                <h3>Reviews</h3>
+                <ReviewList movieId={movie.id} />
+
+                {showForm && (
+                    <ReviewForm
+                        movieId={movie.id}
+                        movieTitle={movie.title}
+                        onClose={() => setShowForm(false)}
+                        onReviewAdded={() => window.location.reload()} // refresh reviews
+                    />
+                )}
             </div>
         </div>
     );

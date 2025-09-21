@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     rating SMALLINT NOT NULL,
     review TEXT NOT NULL,
     user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW();
     CONSTRAINT fk_user_review FOREIGN KEY (user_id)
         REFERENCES users (id)
         ON DELETE RESTRICT ON UPDATE CASCADE,
