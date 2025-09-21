@@ -17,7 +17,7 @@ export default function ReviewForm({ movieId, movieTitle, onClose, onReviewAdded
       await addReview(movieId, movieTitle, rating, review, user.token);
       setReview("");
       setRating(3);
-      if (onReviewAdded) onReviewAdded();
+      if (onReviewAdded) await onReviewAdded();
       onClose();
     } catch (err) {
       console.error("Failed to add review", err);

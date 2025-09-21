@@ -5,6 +5,7 @@ import { useMovie } from "../context/MovieContext.jsx"
 import "./MoviePage.css";
 import ReviewList from "../components/ReviewList.jsx";
 import ReviewForm from "../components/ReviewForm.jsx";
+import { useReviews } from "../context/ReviewContext.jsx";
 
 export default function MovieDetails() {
     const { id } = useParams();
@@ -12,6 +13,8 @@ export default function MovieDetails() {
     const [loading, setLoading] = useState(true);
     const { setSelectedMovie } = useMovie();
     const [showForm, setShowForm] = useState(false);
+
+    const { reviews, fetchMovieReviews } = useReviews();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,6 +27,21 @@ export default function MovieDetails() {
         };
         fetchData();
     }, [id, setSelectedMovie]);
+
+    const handleReviewAdded = async () => {
+        try {
+            await fetchMovieReviews(id);
+        } catch (err) {
+            console.error("Failed to refresh reviews", err);
+        }
+        
+        /*try {
+            const data = await getMovieReviews(id); // re-fetch reviews only
+            setReviews(data);
+        } catch (err) {
+            console.error("Failed to refresh reviews", err);
+        }*/
+    };
 
     if (loading) return <p>Loading...</p>;
     if (!movie) return <p>Movie not found.</p>;
@@ -80,7 +98,7 @@ export default function MovieDetails() {
                         movieId={movie.id}
                         movieTitle={movie.title}
                         onClose={() => setShowForm(false)}
-                        onReviewAdded={() => window.location.reload()} // refresh reviews
+                        onReviewAdded={handleReviewAdded} // refresh reviews
                     />
                 )}
             </div>

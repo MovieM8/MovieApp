@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../context/useUser.js";
-import { getMovieReviews, getUserReviews, deleteReview } from "../services/reviews.js";
+//import { getMovieReviews, getUserReviews, deleteReview } from "../services/reviews.js";
 import "./ReviewList.css";
+import { useReviews } from "../context/ReviewContext.jsx";
 
 export default function ReviewList({ movieId, userOnly = false }) {
   const { user } = useUser();
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { reviews, loading, deleteReviewById, fetchMovieReviews } = useReviews();
+  //const [reviews, setReviews] = useState([]);
+  //const [loading, setLoading] = useState(true);
 
   const fetchReviews = async () => {
-    try {
+    fetchMovieReviews(movieId);
+    /*try {
       setLoading(true);
       const data = userOnly
         ? await getUserReviews(user.token)
@@ -19,17 +22,20 @@ export default function ReviewList({ movieId, userOnly = false }) {
       console.error("Failed to fetch reviews", err);
     } finally {
       setLoading(false);
-    }
+    }*/
+
+
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this review?")) return;
-    try {
+    deleteReviewById(id);
+    /*try {
       await deleteReview(id, user.token);
       setReviews((prev) => prev.filter((r) => r.id !== id));
     } catch (err) {
       console.error("Failed to delete review", err);
-    }
+    }*/
   };
 
   useEffect(() => {
