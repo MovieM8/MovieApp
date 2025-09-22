@@ -35,6 +35,9 @@ export default function Aside() {
                     return <p>View and manage your reviews here.</p>;
                 case "/mygroups":
                     return <p>Manage your groups here.</p>;
+                case "/reviews":
+                    return <p>View all reviews here. Go to movie page to give a review.</p>
+
                 case "/search":
                     return <SearchAside />;
                 default:
