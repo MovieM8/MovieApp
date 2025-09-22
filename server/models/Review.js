@@ -46,12 +46,25 @@ const getReviewsByMovie = async (tmdbid) => {
 // Get all reviews by a user
 const getReviewsByUser = async (userId) => {
   const result = await pool.query(
-    `SELECT r.id, r.movieid, r.rating, r.review, r.created_at, r.user_id AS userid, m.movie
+    `SELECT r.id, r.movieid, r.rating, r.review, r.created_at, r.user_id AS userid, m.movie, u.username
      FROM reviews r
      JOIN movies m ON r.movieid = m.tmdbid
+     JOIN users u ON r.user_id = u.id
      WHERE r.user_id = $1
      ORDER BY r.created_at DESC`,
     [userId]
+  );
+  return result.rows;
+};
+
+// Get all reviews
+const getAllReviews = async () => {
+  const result = await pool.query(
+    `SELECT r.id, r.movieid, r.rating, r.review, r.created_at, r.user_id AS userid, m.movie, u.username
+     FROM reviews r
+     JOIN movies m ON r.movieid = m.tmdbid
+     JOIN users u ON r.user_id = u.id
+     ORDER BY r.created_at DESC`
   );
   return result.rows;
 };
@@ -65,4 +78,4 @@ const removeReview = async (userId, reviewId) => {
   return result.rows[0];
 };
 
-export { addReview, getReviewsByMovie, getReviewsByUser, removeReview };
+export { addReview, getReviewsByMovie, getReviewsByUser, getAllReviews, removeReview };

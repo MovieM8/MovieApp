@@ -12,8 +12,8 @@ import MyProfile from './screens/Myprofile.jsx';
 import Favorites from './screens/Favorites.jsx';
 import ScreeningTimes from './screens/ScreeningTimes.jsx';
 import MovieSearch from './screens/Search.jsx';
-/*import Reviews from './screens/Reviews.jsx';
-import Groups from './screens/Groups.jsx';*/
+import Reviews from './screens/Reviews.jsx';
+/*import Groups from './screens/Groups.jsx';*/
 import DeleteAccount from './screens/DeleteAccount.jsx';
 import { TheatreProvider } from "./context/TheatreContext.jsx";
 import { MovieSearchProvider } from "./context/MovieSearchContext.jsx";
@@ -40,8 +40,8 @@ const router = createBrowserRouter([
       { path: "/search", element: <MovieSearch /> },
       { path: "/movie/:id", element: <MoviePage /> },
 
-      /*{ path: "/reviews", element: <Reviews /> },
-      { path: "/groups", element: <Groups /> },*/
+      { path: "/reviews", element: <Reviews /> },
+      /*{ path: "/groups", element: <Groups /> },*/
 
       // Protected routes
       {
