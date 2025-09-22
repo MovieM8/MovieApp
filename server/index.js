@@ -4,7 +4,8 @@ import userRouter from './routes/userRouter.js';
 import favoriteRouter from "./routes/favoriteRouter.js";
 import reviewRouter from "./routes/reviewRouter.js";
 
-const port = process.env.port
+
+const port = process.env.port; 
 
 const app = express(); // Create an Express application
 app.use(cors()); // Enable CORS for all routes
@@ -17,6 +18,7 @@ app.use("/reviews", reviewRouter); // Use the reviewRouter for /reviews routes
 
 // Error handling middleware
 app.use((err, req, res, next) => {
+    console.error("Error in request:", err);
     const statusCode = err.status || 500;
     res.status(statusCode).json({
         error: {

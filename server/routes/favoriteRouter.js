@@ -8,4 +8,4 @@ router.post("/", auth, createFavorite);
 router.get("/", auth, listFavorites);
 router.delete("/:movieid", auth, deleteFavorite);
 
-export default router;
+export default router; 

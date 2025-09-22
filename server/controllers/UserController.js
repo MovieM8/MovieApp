@@ -9,17 +9,15 @@ const signUp = async (req, res, next) => {
         return next(new ApiError("Email, username and password are required", 400));
     }
 
-    // Password validation
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if (!passwordRegex.test(user.password)) {
-        return alert("Password must be at least 8 characters long, contain at least one uppercase letter and one number") //next(
-        //new ApiError(
-        //    "Password must be at least 8 characters long, contain at least one uppercase letter and one number",
-        //    400
+// Password validation
+const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+if (!passwordRegex.test(user.password)) {
+    return next(new ApiError(
+        "Password must be at least 8 characters long, contain at least one uppercase letter and one number",
+        400
+    ));
+}
 
-        //)
-        //);
-    }
 
     try {
         const existing = await selectUserByEmail(user.email);

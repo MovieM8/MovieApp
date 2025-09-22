@@ -18,6 +18,8 @@ const openDb = () => {
     return pool;
 }
 
+
+
 const  pool = openDb();
 
 export { pool };
