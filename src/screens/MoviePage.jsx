@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovieDetails } from "../services/TMDB.js";
 import { useMovie } from "../context/MovieContext.jsx"
@@ -6,6 +6,7 @@ import "./MoviePage.css";
 import ReviewList from "../components/ReviewList.jsx";
 import ReviewForm from "../components/ReviewForm.jsx";
 import { useReviews } from "../context/ReviewContext.jsx";
+import { useUser } from "../context/useUser.js";
 
 export default function MovieDetails() {
     const { id } = useParams();
@@ -15,6 +16,8 @@ export default function MovieDetails() {
     const [showForm, setShowForm] = useState(false);
 
     const { fetchMovieReviews } = useReviews();
+    const navigate = useNavigate();
+    const { user } = useUser();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,7 +37,7 @@ export default function MovieDetails() {
         } catch (err) {
             console.error("Failed to refresh reviews", err);
         }
-        
+
         /*try {
             const data = await getMovieReviews(id); // re-fetch reviews only
             setReviews(data);
@@ -88,9 +91,21 @@ export default function MovieDetails() {
             </div>
 
             <div className="moviereviews">
-                <button className="ReviewAreaGiveReview" onClick={() => setShowForm(true)}>Give Review</button>
-
-                <h3>Reviews</h3>
+                <div className="review-header-row">
+                    <h3>Reviews</h3>
+                    <button
+                        className="ReviewAreaGiveReview"
+                        onClick={() => {
+                            if (!user || !user.token) {
+                                navigate("/signin", { replace: true });
+                            } else {
+                                setShowForm(true);
+                            }
+                        }}
+                    >
+                        {user?.token ? "Give Review" : "Sign in to review"}
+                    </button>
+                </div>
                 <ReviewList movieId={movie.id} />
 
                 {showForm && (

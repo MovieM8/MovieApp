@@ -8,7 +8,7 @@ import UserProvider from './context/UserProvider.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './screens/NotFound.jsx';
 import Home from './screens/Home.jsx';
-import MyProfile from './screens/Myprofile.jsx';
+import Myprofile from './screens/Myprofile.jsx';
 import Favorites from './screens/Favorites.jsx';
 import ScreeningTimes from './screens/ScreeningTimes.jsx';
 import MovieSearch from './screens/Search.jsx';
@@ -20,6 +20,8 @@ import { MovieSearchProvider } from "./context/MovieSearchContext.jsx";
 import { MovieProvider } from "./context/MovieContext.jsx"
 import MoviePage from './screens/MoviePage.jsx';
 import { ReviewProvider } from "./context/ReviewContext.jsx";
+import MyMovieReviews from './screens/MyReviews.jsx'
+import MyProfileContent from './screens/MyProfileContent.jsx'
 
 // Create router
 const router = createBrowserRouter([
@@ -48,12 +50,13 @@ const router = createBrowserRouter([
         path: "/myprofile",
         element: (
           <ProtectedRoute>
-            <MyProfile />
+            <Myprofile />
           </ProtectedRoute>
         ),
         children: [
+          { index: true, element: <MyProfileContent /> },
           { path: "favorites", element: <Favorites /> },
-          //{ path: "myreviews", element: <MyReviews /> },
+          { path: "myreviews", element: <MyMovieReviews /> },
           //{ path: "mygroups", element: <MyGroups /> },
           { path: "deleteaccount", element: <DeleteAccount /> },
         ],

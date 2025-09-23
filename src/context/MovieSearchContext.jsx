@@ -119,7 +119,7 @@ export function MovieSearchProvider({ children }) {
                 selectedGenres,
                 setSelectedGenres,
                 runSearchByGenre,
-                runCombinedSearch, // ✅ added here
+                runCombinedSearch, // added here
             }}
         >
             {children}

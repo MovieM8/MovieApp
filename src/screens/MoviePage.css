@@ -113,3 +113,24 @@
   font-weight: 600;
   color: #333;
 }
+
+.review-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.ReviewAreaGiveReview {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ReviewAreaGiveReview:hover {
+  background: #0056b3;
+}

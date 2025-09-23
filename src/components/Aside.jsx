@@ -17,6 +17,7 @@ export default function Aside() {
         if (isMyProfileSection) {
             return (
                 <ul>
+                    <li><Link to="/myprofile">My Profile</Link></li>
                     <li><Link to="/myprofile/favorites">My Favorites</Link></li>
                     <li><Link to="/myprofile/myreviews">My Reviews</Link></li>
                     <li><Link to="/myprofile/mygroups">My Groups</Link></li>

@@ -22,7 +22,7 @@ export default function Authentication({ authenticationMode }) {
                 navigate(authenticationMode === AuthenticationMode.SignUp ? '/signin' : '/');
             })
             .catch(error => {
-                // 🔥 Show backend error message if available
+                // Show backend error message if available
                 if (error.response?.data?.error?.message) {
                     alert(error.response.data.error.message);
                 } else {
