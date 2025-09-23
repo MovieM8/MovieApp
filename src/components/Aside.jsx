@@ -1,8 +1,9 @@
-import { Link, useLocation, useParams} from "react-router-dom"
+import { useLocation, useParams} from "react-router-dom"
 import "./Aside.css";
 import ScreeningTimeMenu from "./ScreeningAside.jsx"
 import SearchAside from "./SearchAside.jsx"
 import MovieAside from "./MovieAside.jsx";
+import ProfileAside from "./ProfileAside.jsx"
 
 export default function Aside() {
     const location = useLocation();
@@ -15,15 +16,7 @@ export default function Aside() {
     // Define content for different pages
     const renderAsideContent = () => {
         if (isMyProfileSection) {
-            return (
-                <ul>
-                    <li><Link to="/myprofile">My Profile</Link></li>
-                    <li><Link to="/myprofile/favorites">My Favorites</Link></li>
-                    <li><Link to="/myprofile/myreviews">My Reviews</Link></li>
-                    <li><Link to="/myprofile/mygroups">My Groups</Link></li>
-                    <li><Link to="/myprofile/deleteaccount">Delete Account</Link></li>
-                </ul>
-            )
+            return <ProfileAside />;
         } else if (isMoviePage) {
             return <MovieAside movieId={params.id} />;
         } else {
