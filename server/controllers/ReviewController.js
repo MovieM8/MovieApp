@@ -1,4 +1,4 @@
-import { addReview, getReviewsByMovie, getReviewsByUser, removeReview } from "../models/Review.js";
+import { addReview, getReviewsByMovie, getReviewsByUser, getAllReviews, removeReview } from "../models/Review.js";
 import { ApiError } from "../helper/ApiError.js";
 
 const createReview = async (req, res, next) => {
@@ -41,6 +41,15 @@ const listReviewsByUser = async (req, res, next) => {
   }
 };
 
+const listAllReviews = async (req, res, next) => {
+    try {
+        const result = await getAllReviews();
+        res.status(200).json(result);
+    } catch (error) {
+        return next(error);
+    }
+};
+
 const deleteReview = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -57,4 +66,4 @@ const deleteReview = async (req, res, next) => {
   }
 };
 
-export { createReview, listReviewsByMovie, listReviewsByUser, deleteReview };
+export { createReview, listReviewsByMovie, listReviewsByUser, listAllReviews, deleteReview };

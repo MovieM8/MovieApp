@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createReview, listReviewsByMovie, listReviewsByUser, deleteReview } from "../controllers/ReviewController.js";
+import { createReview, listReviewsByMovie, listReviewsByUser, listAllReviews, deleteReview } from "../controllers/ReviewController.js";
 import { auth } from "../helper/auth.js";
 
 const router = Router();
@@ -12,6 +12,9 @@ router.get("/movie/:movieid", listReviewsByMovie);
 
 // Get all reviews by logged-in user
 router.get("/my", auth, listReviewsByUser);
+
+// Get all reviews 
+router.get("/all", listAllReviews);
 
 // Delete a review
 router.delete("/:reviewId", auth, deleteReview);

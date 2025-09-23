@@ -68,6 +68,30 @@
   background: #f70d24;
 }
 
+/* Review title*/
+.review-title {
+  margin-bottom: 0.5rem;
+}
+
+.review-title h5 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.review-title h5 a {
+  color: #222;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.review-title h5 a:hover {
+  color: #000;
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+
 /* Optional: spacing for small screens */
 @media (max-width: 480px) {
   .review-list {

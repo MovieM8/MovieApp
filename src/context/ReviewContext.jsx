@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getMovieReviews, getUserReviews, deleteReview, addReview } from "../services/reviews.js";
+import { getMovieReviews, getUserReviews, getAllMovieReviews, deleteReview, addReview } from "../services/reviews.js";
 import { useUser } from "./useUser.js";
 
 const ReviewContext = createContext();
@@ -37,6 +37,19 @@ export function ReviewProvider({ children }) {
     }
   };
 
+  // Fetch all reviews
+  const fetchAllReviews = async () => {
+    try {
+      setLoading(true);
+      const data = await getAllMovieReviews();
+      setReviews(data);
+    } catch (err) {
+      console.error("Failed to fetch all reviews", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Add a new review (then refresh reviews for that movie)
   const addMovieReview = async (movieId, movieTitle, rating, reviewText) => {
     if (!user?.token) return;
@@ -69,6 +82,7 @@ export function ReviewProvider({ children }) {
         fetchUserReviews,
         addMovieReview,
         deleteReviewById,
+        fetchAllReviews,
       }}
     >
       {children}
