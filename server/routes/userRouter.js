@@ -1,13 +1,14 @@
-
-import { Router } from "express"
+import { Router } from "express";
 import { signUp, signIn, deleteAccount } from "../controllers/UserController.js";
 import { auth } from "../helper/auth.js";
 
-const router = Router()
+const router = Router();
 
 router.post('/signup', signUp);
 router.post('/signin', signIn);
+router.post('/logout', (req, res) => {
+  res.status(200).json({ message: "Logged out successfully" });
+});
 router.delete('/delete', auth, deleteAccount);
 
-
-export default router
+export default router;

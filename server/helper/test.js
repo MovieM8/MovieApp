@@ -1,47 +1,44 @@
-import fs from 'fs';
-import path from 'path';
-import { pool } from './db.js';
-import jwt from 'jsonwebtoken';
-import { hash } from 'bcrypt';
+import fs from "fs";
+import path from "path";
+import { pool } from "./db.js";
+import { hash } from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const __dirname = import.meta.dirname;
 
-const initializeTestDb = () => {
-    const sql =fs.readFileSync(path.resolve(__dirname, '../createdb.sql'),'utf8');
+const initializeTestDb = async () => {
+  const sql = fs.readFileSync(
+    path.resolve(__dirname, "../createdb.sql"),
+    "utf8"
+  );
 
-    pool.query(sql, (err) => {
-        if (err) {
-            console.error('Error initializing test database', err);
-        } else {
-            console.log('Test database initialized successfully');
-        }
-    });
-}
+  try {
+    await pool.query(sql);
+    console.log("Test database initialized successfully");
+  } catch (err) {
+    console.error("Error initializing test database", err);
+  }
+};
 
 const insertTestUser = (user) => {
-    return new Promise((resolve, reject) => {
-        hash(user.password, 10, (err, hashedPassword) => {
-            if (err) {
-                console.error('Error hashing password', err);
-                return reject(err);
-            }
-            pool.query('INSERT INTO users (email, password) VALUES ($1, $2)',
-                [user.email, hashedPassword],
-                (err, result) => {
-                    if (err) {
-                        console.error('Error inserting test user: ', err);
-                        return reject(err);
-                    } else {
-                        console.log('Test user inserted successfully');
-                        resolve();
-                    }
-                });
-        });
+  return new Promise((resolve, reject) => {
+    hash(user.password, 10, (err, hashedPassword) => {
+      if (err) return reject(err);
+      pool.query(
+        "INSERT INTO users (email, password, username) VALUES ($1, $2, $3)",
+        [user.email, hashedPassword, user.username],
+        (err) => {
+          if (err) return reject(err);
+          console.log("Test user inserted successfully");
+          resolve();
+        }
+      );
     });
-}
+  });
+};
 
 const getToken = (email) => {
-    return jwt.sign({ email }, process.env.JWT_SECRET_KEY);
-}
+  return jwt.sign({ email }, process.env.JWT_SECRET_KEY);
+};
 
 export { initializeTestDb, insertTestUser, getToken };

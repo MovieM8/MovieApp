@@ -1,6 +1,9 @@
 -- Drop tables safely 
 DROP TABLE IF EXISTS reviews, favorites, group_members, group_times, movie_groups, screen_times, movies, users CASCADE;
 
+GRANT ALL ON SCHEMA public TO dbuser;
+
+
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -89,7 +92,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     rating SMALLINT NOT NULL,
     review TEXT NOT NULL,
     user_id INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW();
+    created_at TIMESTAMP DEFAULT NOW(),
     CONSTRAINT fk_user_review FOREIGN KEY (user_id)
         REFERENCES users (id)
         ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -100,6 +103,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 
 -- Create role if not exists
+/*
 DO $$
 BEGIN
    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'dbuser') THEN
@@ -109,6 +113,8 @@ BEGIN
    END IF;
 END
 $$;
+
+*/ 
 
 -- Helpful indexes on foreign keys
 CREATE INDEX IF NOT EXISTS idx_group_members_user ON group_members (user_id);
