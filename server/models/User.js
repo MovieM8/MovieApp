@@ -25,6 +25,7 @@ const deleteUser = async (email) => {
         const userId = userRes.rows[0].id;
 
         // 2. Delete dependent rows
+        await client.query('DELETE FROM sharedfavorites WHERE user_id = $1', [userId]);
         await client.query('DELETE FROM group_members WHERE user_id = $1', [userId]);
         await client.query('DELETE FROM movie_groups WHERE groupowner = $1', [userId]);
         await client.query('DELETE FROM favorites WHERE user_id = $1', [userId]);

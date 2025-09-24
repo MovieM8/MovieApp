@@ -80,7 +80,8 @@ export default function UserProvider({ children }) {
         return favorites.some((f) => f.movieid === tmdbid);
     };
 
-    const addFavorite = async (movieObj, sharelink = null) => {
+    //const addFavorite = async (movieObj, sharelink = null) => {
+    const addFavorite = async (movieObj) => {
         if (!user?.token) return alert("Login required to add favorites");
         const tmdbid = movieObj.id;
         const title = movieObj.title;
@@ -94,7 +95,7 @@ export default function UserProvider({ children }) {
         try {
             const res = await axios.post(
                 `${API_URL}/favorites`,
-                { tmdbid, movie: title, sharelink },
+                { tmdbid, movie: title },
                 { headers: { Authorization: `Bearer ${user.token}` } }
             );
             setFavorites((prev) => [...prev, res.data]);

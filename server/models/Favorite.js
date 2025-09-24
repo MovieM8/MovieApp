@@ -15,13 +15,13 @@ const insertMovieIfNotExists = async (tmdbid, movie) => {
 };
 
 // Add favorite for user
-const addFavorite = async (userId, tmdbid, movie, sharelink = null) => {
+const addFavorite = async (userId, tmdbid, movie) => {
     const client = await pool.connect();
     try {
         await insertMovieIfNotExists(tmdbid, movie);
         const result = await client.query(
-            "INSERT INTO favorites (user_id, movieid, movie, sharelink) VALUES ($1, $2, $3, $4) RETURNING *",
-            [userId, tmdbid, movie, sharelink]
+            "INSERT INTO favorites (user_id, movieid, movie) VALUES ($1, $2, $3) RETURNING *",
+            [userId, tmdbid, movie]
         );
         return result.rows[0];
     } finally {
@@ -48,5 +48,48 @@ const removeFavorite = async (userId, movieId) => {
 };
 
 
+// Get favorites sharelink for user
+const getFavoriteShare = async (userId) => {
+    const result = await pool.query(
+        "SELECT * FROM sharedfavorites WHERE user_id = $1",
+        [userId]
+    );
+    return result.rows;
+};
 
-export { addFavorite, getFavoritesByUser, removeFavorite };
+// Insert or update (upsert) sharelink
+const upsertFavoriteShare = async (userId, sharelink = null) => {
+    const result = await pool.query(
+        `INSERT INTO sharedfavorites (user_id, sharelink)
+         VALUES ($1, $2)
+         ON CONFLICT (user_id) DO UPDATE SET sharelink = EXCLUDED.sharelink
+         RETURNING *`,
+        [userId, sharelink]
+    );
+    return result.rows[0];
+};
+
+// Remove favorite sharelink
+const removeFavoriteShare = async (userId) => {
+    const result = await pool.query(
+        "DELETE FROM sharedfavorites WHERE user_id = $1 RETURNING *",
+        [userId]
+    );
+    return result.rows[0];
+};
+
+// Get users shared favorite list
+const getSharedFavorites = async (sharelink) => {
+    const result = await pool.query(
+            `SELECT f.movieid, f.movie, u.username
+             FROM favorites f
+             JOIN users u ON u.id = f.user_id
+             JOIN sharedfavorites s ON s.user_id = u.id
+             WHERE s.sharelink = $1`,
+            [sharelink]
+        );
+    return result.rows;
+};
+
+
+export { addFavorite, getFavoritesByUser, removeFavorite, getFavoriteShare, upsertFavoriteShare, removeFavoriteShare, getSharedFavorites };

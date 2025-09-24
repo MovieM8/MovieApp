@@ -1,5 +1,5 @@
 -- Drop tables safely 
-DROP TABLE IF EXISTS reviews, favorites, group_members, group_times, movie_groups, screen_times, movies, users CASCADE;
+DROP TABLE IF EXISTS reviews, favorites, sharedfavorites, group_members, group_times, movie_groups, screen_times, movies, users CASCADE;
 
 GRANT ALL ON SCHEMA public TO dbuser;
 
@@ -75,7 +75,6 @@ CREATE TABLE IF NOT EXISTS favorites (
     user_id INTEGER NOT NULL,
     movieid INTEGER NOT NULL,
     movie TEXT,
-    sharelink TEXT,
     CONSTRAINT fk_user_fav FOREIGN KEY (user_id)
         REFERENCES users (id)
         ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -98,6 +97,16 @@ CREATE TABLE IF NOT EXISTS reviews (
         ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT fk_movie_review FOREIGN KEY (movieid)
         REFERENCES movies (tmdbid)
+        ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- Sharedfavorites table
+CREATE TABLE IF NOT EXISTS sharedfavorites (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL UNIQUE,
+    sharelink TEXT DEFAULT NULL UNIQUE,
+    CONSTRAINT fk_user_shared FOREIGN KEY (user_id)
+        REFERENCES users (id)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -126,6 +135,7 @@ CREATE INDEX IF NOT EXISTS idx_favorites_movie ON favorites (movieid);
 CREATE INDEX IF NOT EXISTS idx_groups_movie ON movie_groups (movieid);
 CREATE INDEX IF NOT EXISTS idx_group_times_screen_times ON group_times (screentimeid);
 CREATE INDEX IF NOT EXISTS idx_group_times_group ON group_times (group_id);
+CREATE INDEX IF NOT EXISTS idx_sharedfavorites_user ON sharedfavorites (user_id);
 
 -- Revoke first
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM dbuser;
@@ -181,17 +191,17 @@ INSERT INTO group_members (user_id, group_id) VALUES
 (5, 5), (7, 5), (8, 5), (9, 5), (10, 5); -- Animated Adventures
 
 -- Insert favorites (each user has at least one)
-INSERT INTO favorites (user_id, movieid, movie, sharelink) VALUES
-(1, 157336, 'Interstellar', 'https://imdb.com/title/tt0816692/'),
-(2, 18785, 'The Hangover', 'https://imdb.com/title/tt1119646/'),
-(3, 289, 'Casablanca', 'https://imdb.com/title/tt0034583/'),
-(4, 299534, 'Avengers: Endgame', 'https://imdb.com/title/tt4154796/'),
-(5, 862, 'Toy Story', 'https://imdb.com/title/tt0114709/'),
-(6, 27205, 'Inception', 'https://imdb.com/title/tt1375666/'),
-(7, 603, 'The Matrix', 'https://imdb.com/title/tt0133093/'),
-(8, 109445, 'Frozen', 'https://imdb.com/title/tt2294629/'),
-(9, 155, 'The Dark Knight', 'https://imdb.com/title/tt0468569/'),
-(10, 808, 'Shrek', 'https://imdb.com/title/tt0126029/');
+INSERT INTO favorites (user_id, movieid, movie) VALUES
+(1, 157336, 'Interstellar'),
+(2, 18785, 'The Hangover'),
+(3, 289, 'Casablanca'),
+(4, 299534, 'Avengers: Endgame'),
+(5, 862, 'Toy Story'),
+(6, 27205, 'Inception'),
+(7, 603, 'The Matrix'),
+(8, 109445, 'Frozen'),
+(9, 155, 'The Dark Knight'),
+(10, 808, 'Shrek');
 
 -- Insert reviews (spread across users/movies)
 INSERT INTO reviews (movieid, rating, review, user_id) VALUES
