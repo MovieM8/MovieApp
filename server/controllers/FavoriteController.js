@@ -61,11 +61,9 @@ const getSharelink = async (req, res, next) => {
         if (!userId) return next(new ApiError("User not authenticated", 401));
 
         const share = await getFavoriteShare(userId);
-        if (!share) {
-            return res.status(404).json({ message: "No sharelink found" });
-        }
 
-        res.status(200).json(share);
+        // return empty if no sharelink found
+        res.status(200).json(share || []);
     } catch (err) {
         next(err);
     }
@@ -111,11 +109,10 @@ const getFavoritesBySharelink = async (req, res, next) => {
         if (!shlink) return next(new ApiError("Sharelink is required", 400));
 
         const shared = await getSharedFavorites(shlink);
-        if (!shared || shared.length === 0) {
-            return res.status(404).json({ message: "No favorites found for this sharelink" });
-        }
 
-        res.status(200).json(shared);
+        // return [] if no favorites found
+        res.status(200).json(shared && shared.length > 0 ? shared : []);
+
     } catch (err) {
         next(err);
     }
