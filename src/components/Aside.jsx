@@ -10,6 +10,7 @@ export default function Aside() {
     const params = useParams();
     const isMyProfileSection = location.pathname.startsWith("/myprofile");
     const isMoviePage = location.pathname.startsWith("/movie");
+    const isSharedFavorite = location.pathname.startsWith("/shared/favorites/");
 
     const movieFromState = location.state?.movie;
 
@@ -19,7 +20,10 @@ export default function Aside() {
             return <ProfileAside />;
         } else if (isMoviePage) {
             return <MovieAside movieId={params.id} />;
-        } else {
+        } 
+         else if (isSharedFavorite) {
+            return <p>View shared favorite movies.</p>;
+        }else {
             switch (location.pathname) {
                 case "/screeningtimes":
                     return <ScreeningTimeMenu />;

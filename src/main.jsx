@@ -22,6 +22,7 @@ import MoviePage from './screens/MoviePage.jsx';
 import { ReviewProvider } from "./context/ReviewContext.jsx";
 import MyMovieReviews from './screens/MyReviews.jsx'
 import MyProfileContent from './screens/MyProfileContent.jsx'
+import SharedFavorites from './screens/SharedFavorites.jsx'
 
 // Create router
 const router = createBrowserRouter([
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
       { path: "/movie/:id", element: <MoviePage /> },
 
       { path: "/reviews", element: <Reviews /> },
+      { path: "/shared/favorites/:sharelink", element: <SharedFavorites /> },
       /*{ path: "/groups", element: <Groups /> },*/
 
       // Protected routes

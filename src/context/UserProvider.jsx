@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { UserContext } from "./UserContext.js";
 import { useNavigate } from "react-router-dom";
+import { getSharelink, saveSharelink, deleteSharelink } from "../services/favoriteshare.js";
 import axios from "axios";
 
 export default function UserProvider({ children }) {
@@ -120,12 +121,64 @@ export default function UserProvider({ children }) {
         }
     };
 
+
+    // *********************************
+    // sharelink
+    // *********************************
+    const [sharelink, setSharelink] = useState(null);
+
+    // Load sharelink from backend
+    const loadSharelink = async () => {
+        if (!user?.token) return;
+        try {
+            const existing = await getSharelink(user.token);
+            if (existing && existing.length > 0) {
+                setSharelink(existing[0].sharelink);
+            } else {
+                setSharelink(null);
+            }
+        } catch (err) {
+            console.error("Failed to load sharelink", err);
+        }
+    };
+
+    // Create new sharelink
+    const createSharelink = async () => {
+        if (!user?.token || !user?.username) return;
+        try {
+            const newSharelink = `${Math.floor(10000000 + Math.random() * 90000000)}${user.username}`;
+            const saved = await saveSharelink(newSharelink, user.token);
+            if (saved?.sharelink) setSharelink(saved.sharelink);
+        } catch (err) {
+            console.error("Failed to create sharelink", err);
+        }
+    };
+
+    // Remove sharelink
+    const removeSharelink = async () => {
+        if (!user?.token) return;
+        try {
+            await deleteSharelink(user.token);
+            setSharelink(null);
+        } catch (err) {
+            console.error("Failed to remove sharelink", err);
+        }
+    };
+
+
     // *********************************
     // Effects
     // *********************************
     useEffect(() => {
         if (user?.token) {
             loadFavorites();
+        }
+    }, [user]);
+
+    // Load sharelink whenever user logs in
+    useEffect(() => {
+        if (user?.token) {
+            loadSharelink();
         }
     }, [user]);
 
@@ -142,6 +195,10 @@ export default function UserProvider({ children }) {
             addFavorite,
             removeFavorite,
             isFavorite,
+            sharelink,
+            loadSharelink,
+            createSharelink,
+            removeSharelink,
         }}
         >
             {children}
