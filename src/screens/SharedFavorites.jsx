@@ -15,7 +15,6 @@ export default function SharedFavorites() {
             setLoading(true);
             try {
                 const sharedFavorites = await getFavoritesBySharelink(sharelink);
-                console.log(sharedFavorites)
                 if (!sharedFavorites || sharedFavorites.length === 0) {
                     setFavMovies([]);
                     setLoading(false);
