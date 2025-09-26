@@ -9,6 +9,8 @@ import {
     addMovieToGroup,
     addScreeningToGroup,
     getPendingRequests,
+    getUserMembershipStatus,
+    getAllGroupMembers,
 } from "../models/Group.js";
 import { ApiError } from "../helper/ApiError.js";
 
@@ -38,14 +40,34 @@ const listGroups = async (req, res, next) => {
     }
 };
 
+// Get Membership status (for logged in user)
+const getGroupMembership = async (req, res, next) => {
+    try {
+        const userId = req.user?.id;
+        const { groupId } = req.params;
+
+        const membershipStatus = await getUserMembershipStatus(groupId, userId);
+        res.status(200).json(membershipStatus);
+    } catch (err) {
+        next(err);
+    }
+};
+
 // Group details (only members)
 const getGroupDetails = async (req, res, next) => {
     try {
         const userId = req.user?.id;
         const { groupId } = req.params;
         const group = await getGroupById(groupId, userId);
+        const membershipStatus = await getUserMembershipStatus(groupId, userId);
+
         if (!group) return next(new ApiError("Not authorized or group not found", 403));
-        res.status(200).json(group);
+        if (!membershipStatus) return next(new ApiError("Not authorized or group not found", 403));
+
+        res.status(200).json({
+            ...group,
+            membershipStatus,
+        });
     } catch (err) {
         next(err);
     }
@@ -182,6 +204,17 @@ const listPendingRequests = async (req, res, next) => {
     }
 };
 
+// List all members of a group with roles
+const listGroupMembers = async (req, res, next) => {
+    try {
+        const { groupId } = req.params;
+        const members = await getAllGroupMembers(groupId);
+        res.status(200).json(members);
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     createGroupController,
     listGroups,
@@ -193,4 +226,6 @@ export {
     addGroupMovie,
     addGroupScreening,
     listPendingRequests,
+    getGroupMembership,
+    listGroupMembers,
 };

@@ -23,6 +23,9 @@ import { ReviewProvider } from "./context/ReviewContext.jsx";
 import MyMovieReviews from './screens/MyReviews.jsx'
 import MyProfileContent from './screens/MyProfileContent.jsx'
 import SharedFavorites from './screens/SharedFavorites.jsx'
+import GroupListing from './screens/GroupListing.jsx'
+import { GroupProvider } from './context/GroupContext.jsx'
+import GroupPage from './screens/GroupPage.jsx'
 
 // Create router
 const router = createBrowserRouter([
@@ -31,7 +34,9 @@ const router = createBrowserRouter([
       <UserProvider>
         <MovieProvider>
           <ReviewProvider>
-            <App /> {/* App acts as the layout with Header, Navbar, Aside */}
+            <GroupProvider>
+              <App /> {/* App acts as the layout with Header, Navbar, Aside */}
+            </GroupProvider>
           </ReviewProvider>
         </MovieProvider>
       </UserProvider>
@@ -42,10 +47,10 @@ const router = createBrowserRouter([
       { path: "/screeningtimes", element: <ScreeningTimes /> },
       { path: "/search", element: <MovieSearch /> },
       { path: "/movie/:id", element: <MoviePage /> },
-
+      { path: "/groups/:groupId", element: <GroupPage /> },
       { path: "/reviews", element: <Reviews /> },
       { path: "/shared/favorites/:sharelink", element: <SharedFavorites /> },
-      /*{ path: "/groups", element: <Groups /> },*/
+      { path: "/groups", element: <GroupListing /> },
 
       // Protected routes
       {

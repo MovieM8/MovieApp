@@ -1,4 +1,4 @@
-import { useLocation, useParams} from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import "./Aside.css";
 import ScreeningTimeMenu from "./ScreeningAside.jsx"
 import SearchAside from "./SearchAside.jsx"
@@ -11,6 +11,7 @@ export default function Aside() {
     const isMyProfileSection = location.pathname.startsWith("/myprofile");
     const isMoviePage = location.pathname.startsWith("/movie");
     const isSharedFavorite = location.pathname.startsWith("/shared/favorites/");
+    const isGroup = location.pathname.startsWith("/group");
 
     const movieFromState = location.state?.movie;
 
@@ -20,10 +21,12 @@ export default function Aside() {
             return <ProfileAside />;
         } else if (isMoviePage) {
             return <MovieAside movieId={params.id} />;
-        } 
-         else if (isSharedFavorite) {
+        } else if (isSharedFavorite) {
             return <p>View shared favorite movies.</p>;
-        }else {
+        } else if (isGroup) {
+            return <p>Buttons to show all groups and my groups.</p>;
+        }
+        else {
             switch (location.pathname) {
                 case "/screeningtimes":
                     return <ScreeningTimeMenu />;

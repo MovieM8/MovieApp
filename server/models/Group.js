@@ -2,13 +2,35 @@ import { pool } from "../helper/db.js";
 
 // Insert group
 const createGroup = async (ownerId, groupname) => {
-    const result = await pool.query(
-        `INSERT INTO movie_groups (groupname, groupowner) 
-     VALUES ($1, $2) 
-     RETURNING id, groupname, groupowner`,
-        [groupname, ownerId]
-    );
-    return result.rows[0];
+    const client = await pool.connect();
+    try {
+        await client.query("BEGIN");
+
+        // Insert group
+        const groupResult = await client.query(
+            `INSERT INTO movie_groups (groupname, groupowner)
+       VALUES ($1, $2)
+       RETURNING id, groupname, groupowner`,
+            [groupname, ownerId]
+        );
+
+        const group = groupResult.rows[0];
+
+        // Add owner to group_members as approved member
+        await client.query(
+            `INSERT INTO group_members (user_id, group_id, pending)
+       VALUES ($1, $2, FALSE)`,
+            [ownerId, group.id]
+        );
+
+        await client.query("COMMIT");
+        return group;
+    } catch (err) {
+        await client.query("ROLLBACK");
+        throw err;
+    } finally {
+        client.release();
+    }
 };
 
 // List all groups (public)
@@ -49,11 +71,17 @@ const removeGroup = async (groupId, ownerId) => {
 
 // Join request
 const requestToJoin = async (groupId, userId) => {
-    const result = await pool.query(
+    /*const result = await pool.query(
         `INSERT INTO group_members (user_id, group_id, pending)
      VALUES ($1, $2, TRUE)
      ON CONFLICT (user_id, group_id) DO NOTHING
      RETURNING *`,
+        [userId, groupId]
+    );*/
+
+    const result = await pool.query(
+        `INSERT INTO group_members (user_id, group_id, pending)
+     VALUES ($1, $2, TRUE) RETURNING *`,
         [userId, groupId]
     );
     return result.rows[0];
@@ -121,6 +149,38 @@ const getPendingRequests = async (groupId) => {
     return result.rows;
 };
 
+// Get membership status
+const getUserMembershipStatus = async (groupId, userId) => {
+    const result = await pool.query(
+        `SELECT pending FROM group_members WHERE group_id = $1 AND user_id = $2`,
+        [groupId, userId]
+    );
+    if (result.rows.length === 0) return "none";
+    return result.rows[0].pending ? "pending" : "member";
+};
+
+// Get all members of a group with roles
+const getAllGroupMembers = async (groupId) => {
+    const result = await pool.query(
+        `SELECT 
+        gm.group_id,
+        gm.user_id,
+        u.username,
+        CASE 
+            WHEN gm.user_id = g.groupowner THEN 'owner'
+            WHEN gm.pending = TRUE THEN 'pending'
+            ELSE 'member'
+        END AS role
+     FROM group_members gm
+     JOIN users u ON gm.user_id = u.id
+     JOIN movie_groups g ON gm.group_id = g.id
+     WHERE gm.group_id = $1
+     ORDER BY role ASC, u.username ASC`,
+        [groupId]
+    );
+    return result.rows;
+};
+
 export {
     createGroup,
     getAllGroups,
@@ -132,4 +192,6 @@ export {
     addMovieToGroup,
     addScreeningToGroup,
     getPendingRequests,
+    getUserMembershipStatus,
+    getAllGroupMembers,
 };

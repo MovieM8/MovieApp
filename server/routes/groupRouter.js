@@ -10,6 +10,8 @@ import {
     addGroupMovie,
     addGroupScreening,
     listPendingRequests,
+    getGroupMembership,
+    listGroupMembers,
 } from "../controllers/GroupController.js";
 import { auth } from "../helper/auth.js";
 
@@ -44,5 +46,11 @@ router.post("/:groupId/movie", auth, addGroupMovie);
 
 // Add screening to group
 router.post("/:groupId/screening", auth, addGroupScreening);
+
+// Get group membership (for logged in user)
+router.get("/membership/:groupId", auth, getGroupMembership);
+
+// Get all members of a group with roles
+router.get("/:groupId/members", auth, listGroupMembers);
 
 export default router;
