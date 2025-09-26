@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS group_members (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
+    pending BOOLEAN DEFAULT TRUE,
     CONSTRAINT fk_user FOREIGN KEY (user_id)
         REFERENCES users (id)
         ON DELETE RESTRICT ON UPDATE CASCADE,

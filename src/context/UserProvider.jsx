@@ -34,6 +34,7 @@ export default function UserProvider({ children }) {
     // logout function
     const logout = () => {
         setUser({ email: '', username: '', password: '' });
+        setSharelink(null);
         sessionStorage.removeItem('user');
         navigate('/');
     }
@@ -54,6 +55,7 @@ export default function UserProvider({ children }) {
 
             alert("Your account has been deleted.");
             setUser({ email: '', password: '', username: '' }); // remove user
+            setSharelink(null);
             sessionStorage.removeItem("user");
             navigate("/signin");
         } catch (error) {
