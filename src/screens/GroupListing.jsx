@@ -55,7 +55,7 @@ export default function GroupListing() {
                 <ul className="groups-list">
                     {groups.map((group) => (
                         <li key={group.id}>
-                            <a href={`/groups/${group.id}`}>{group.groupname}</a> (Owner: {group.owner})
+                            <a href={`/groups/${group.id}`}>{group.groupname}</a> by {group.owner}
                         </li>
                     ))}
                 </ul>
