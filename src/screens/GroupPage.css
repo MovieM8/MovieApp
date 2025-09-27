@@ -88,3 +88,8 @@ button:disabled {
     background-color: #999;
     cursor: not-allowed;
 }
+
+.groupMovieCard .moviegrid{
+  margin-left: 18vw;
+  margin-right: 18vw;
+}
