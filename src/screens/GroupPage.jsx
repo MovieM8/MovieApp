@@ -99,30 +99,7 @@ export default function GroupPage() {
             {membershipStatus === "member" && groupVisible && currentGroup && (
                 <div className="group-member-section">
                     <h2>{currentGroup.groupname}</h2>
-                    <p>Owner: {currentGroup.owner}</p>
-
-                    <h3>Group Members</h3>
-                    <ul>
-                        {groupMembers
-                            .slice() // copy to avoid mutating state
-                            .sort((a, b) => {
-                                if (a.role === "owner") return -1; // owner first
-                                if (b.role === "owner") return 1;
-                                if (a.role === "pending" && b.role !== "pending") return 1; // pending last
-                                if (b.role === "pending" && a.role !== "pending") return -1;
-                                return a.username.localeCompare(b.username); // alphabetical for members
-                            })
-                            .map((member) => {
-                                let suffix = "";
-                                if (member.role === "owner") suffix = " (Owner)";
-                                else if (member.role === "pending") suffix = " (Wants to join)";
-                                return (
-                                    <li key={member.user_id}>
-                                        {member.username}{suffix}
-                                    </li>
-                                );
-                            })}
-                    </ul>
+                    {/*<p>Owner: {currentGroup.owner}</p>*/}
 
                     {/*<h3>Add Movie</h3>
                     <form onSubmit={handleAddMovie}>
@@ -148,21 +125,49 @@ export default function GroupPage() {
                         <button type="submit">Add Screening</button>
                     </form>*/}
 
-                    <h3>Group Movie</h3>
-                    {console.log(movies)}
-                    <MovieCards movies={movies} />
-                    {/*<ul>
-                        {currentGroup.groupMovies?.map((m, idx) => (
-                            <li key={idx}>{m.movie}</li>
-                        ))}
-                    </ul>*/}
+                    <div className="groupMovie">
+                        <h3>Group Movie</h3>
+                        {movies.length === 0 ? (
+                            <p>No movie is set for the group currently.</p>
+                        ) : (
+                            <MovieCards movies={movies} />
+                        )}
+                        
+                    </div>
 
-                    <h3>Screening Times</h3>
-                    <ul>
-                        {currentGroup.groupScreenings?.map((s, idx) => (
-                            <li key={idx}>{s.screentime}</li>
-                        ))}
-                    </ul>
+                    <div className="groupTimes">
+                        <h3>Screening Times</h3>
+                        <ul>
+                            {currentGroup.groupScreenings?.map((s, idx) => (
+                                <li key={idx}>{s.screentime}</li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="groupMemb">
+                        <h3>Group Members</h3>
+                        <ul>
+                            {groupMembers
+                                .slice() // copy to avoid mutating state
+                                .sort((a, b) => {
+                                    if (a.role === "owner") return -1; // owner first
+                                    if (b.role === "owner") return 1;
+                                    if (a.role === "pending" && b.role !== "pending") return 1; // pending last
+                                    if (b.role === "pending" && a.role !== "pending") return -1;
+                                    return a.username.localeCompare(b.username); // alphabetical for members
+                                })
+                                .map((member) => {
+                                    let suffix = "";
+                                    if (member.role === "owner") suffix = " (Owner)";
+                                    else if (member.role === "pending") suffix = " (Wants to join)";
+                                    return (
+                                        <li key={member.user_id}>
+                                            {member.username}{suffix}
+                                        </li>
+                                    );
+                                })}
+                        </ul>
+                    </div>
                 </div>
             )}
 

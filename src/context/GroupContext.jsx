@@ -48,8 +48,14 @@ export function GroupProvider({ children }) {
             setCurrentGroup(data);
 
             // get movie info
-            const movieData = await getMovieInfo(data?.movieid)
-            setMovies(Array.isArray(movieData) ? movieData : movieData ? [movieData] : [])
+            if (!data.movieid) {
+                // no movie id
+                setMovies([])
+            } else {
+                const movieData = await getMovieInfo(data?.movieid)
+                setMovies(Array.isArray(movieData) ? movieData : movieData ? [movieData] : [])
+            }
+
         } finally {
             setLoading(false);
         }
