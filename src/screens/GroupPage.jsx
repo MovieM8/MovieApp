@@ -79,7 +79,7 @@ export default function GroupPage() {
 
     return (
         <div className="group-page">
-            <h2>Group Details</h2>
+            {/*<h2>Group Details</h2>*/}
 
             {!isLoggedIn && (
                 <div>
@@ -130,9 +130,10 @@ export default function GroupPage() {
                         {movies.length === 0 ? (
                             <p>No movie is set for the group currently.</p>
                         ) : (
-                            <MovieCards movies={movies} />
+                            <div className="groupMovieCard">
+                                <MovieCards movies={movies} />
+                            </div>
                         )}
-                        
                     </div>
 
                     <div className="groupTimes">
