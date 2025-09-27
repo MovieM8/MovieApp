@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGroups } from "../context/GroupContext.jsx";
 import { useUser } from "../context/useUser.js";
+import MovieCards from "../components/Moviecards.jsx"
 import "./GroupPage.css";
 
 export default function GroupPage() {
@@ -20,6 +21,7 @@ export default function GroupPage() {
         loading,
         groupMembers,
         fetchGroupMembers,
+        movies,
     } = useGroups();
 
     const [movieInput, setMovieInput] = useState("");
@@ -33,8 +35,9 @@ export default function GroupPage() {
             // Only fetch full group details if user is approved member
             if (status === "member") {
                 await fetchGroupDetails(groupId);
-                fetchGroupMembers(groupId);
+                await fetchGroupMembers(groupId);
                 setGroupVisible(true);
+
             } else {
                 setGroupVisible(false);
             }
@@ -146,11 +149,13 @@ export default function GroupPage() {
                     </form>*/}
 
                     <h3>Group Movie</h3>
-                    <ul>
+                    {console.log(movies)}
+                    <MovieCards movies={movies} />
+                    {/*<ul>
                         {currentGroup.groupMovies?.map((m, idx) => (
                             <li key={idx}>{m.movie}</li>
                         ))}
-                    </ul>
+                    </ul>*/}
 
                     <h3>Screening Times</h3>
                     <ul>

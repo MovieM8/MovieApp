@@ -47,7 +47,7 @@ const getAllGroups = async () => {
 // Get single group (only members can see details)
 const getGroupById = async (groupId, userId) => {
     const result = await pool.query(
-        `SELECT g.id, g.groupname, g.groupowner, u.username AS owner
+        `SELECT g.id, g.groupname, g.groupowner, g.movieid, u.username AS owner
      FROM movie_groups g
      JOIN users u ON g.groupowner = u.id
      WHERE g.id = $1
@@ -62,11 +62,36 @@ const getGroupById = async (groupId, userId) => {
 
 // Delete group (only owner)
 const removeGroup = async (groupId, ownerId) => {
-    const result = await pool.query(
-        "DELETE FROM movie_groups WHERE id = $1 AND groupowner = $2 RETURNING *",
-        [groupId, ownerId]
-    );
-    return result.rows[0];
+    const client = await pool.connect();
+    try {
+        await client.query("BEGIN");
+
+        // Remove related group_times first
+        await client.query(
+            "DELETE FROM group_times WHERE group_id = $1",
+            [groupId]
+        );
+
+        // Remove related group_members
+        await client.query(
+            "DELETE FROM group_members WHERE group_id = $1",
+            [groupId]
+        );
+
+        // Finally delete the group (only if owner matches)
+        const result = await client.query(
+            "DELETE FROM movie_groups WHERE id = $1 AND groupowner = $2 RETURNING *",
+            [groupId, ownerId]
+        );
+
+        await client.query("COMMIT");
+        return result.rows[0];
+    } catch (err) {
+        await client.query("ROLLBACK");
+        throw err;
+    } finally {
+        client.release();
+    }
 };
 
 // Join request

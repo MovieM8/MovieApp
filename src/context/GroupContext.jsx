@@ -14,6 +14,7 @@ import {
     listGroupMembers,
 } from "../services/groups.js";
 import { useUser } from "./useUser.js";
+import { getMovieInfo } from "../services/TMDB.js"
 
 const GroupContext = createContext();
 
@@ -25,6 +26,7 @@ export function GroupProvider({ children }) {
     const [loading, setLoading] = useState(false);
     const [membershipStatus, setMembershipStatus] = useState("none"); // "none", "pending", "member"
     const [groupMembers, setGroupMembers] = useState([]);
+    const [movies, setMovies] = useState([]);
 
     // Fetch all groups
     const fetchGroups = async () => {
@@ -44,6 +46,10 @@ export function GroupProvider({ children }) {
         try {
             const data = await getGroupDetails(groupId, user.token);
             setCurrentGroup(data);
+
+            // get movie info
+            const movieData = await getMovieInfo(data?.movieid)
+            setMovies(Array.isArray(movieData) ? movieData : movieData ? [movieData] : [])
         } finally {
             setLoading(false);
         }
@@ -156,6 +162,7 @@ export function GroupProvider({ children }) {
                 membershipStatus,
                 fetchGroupMembers,
                 groupMembers,
+                movies,
             }}
         >
             {children}
