@@ -1,12 +1,15 @@
 import { Link, } from "react-router-dom"
-import { useUser } from "../context/useUser.js";
 import "./GroupAside.css";
 
 export default function GroupAside() {
     return (
-        <ul>
-            <li><Link to="/groups">All Groups</Link></li>
-            <li><Link to="/myprofile/mygroups">My Groups</Link></li>
+        <ul className="group-aside-list">
+            <li>
+                <Link to="/groups" className="group-aside-btn">All Groups</Link>
+            </li>
+            <li>
+                <Link to="/myprofile/mygroups" className="group-aside-btn">My Groups</Link>
+            </li>
         </ul>
     );
 }

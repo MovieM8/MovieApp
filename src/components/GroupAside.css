@@ -1,0 +1,33 @@
+.group-aside-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.group-aside-list li {
+    margin: 0;
+}
+
+.group-aside-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    font-weight: 500;
+}
+
+.group-aside-btn:hover {
+    background-color: #3f51b5;
+}
+
+.group-aside-btn li a {
+    color: #007bff;
+    text-decoration: none;
+}
