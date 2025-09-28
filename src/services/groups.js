@@ -165,3 +165,16 @@ export const listGroupMembers = async (groupId, token) => {
         return [];
     }
 };
+
+// List all groups
+export const listMyGroups = async (token) => {
+    try {
+        const res = await axios.get(`${API_URL}/groups/byuser`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return res.data;
+    } catch (err) {
+        console.error("Failed to fetch user groups", err);
+        return [];
+    }
+};

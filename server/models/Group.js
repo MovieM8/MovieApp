@@ -104,11 +104,20 @@ const requestToJoin = async (groupId, userId) => {
         [userId, groupId]
     );*/
 
-    const result = await pool.query(
+    /*const result = await pool.query(
         `INSERT INTO group_members (user_id, group_id, pending)
      VALUES ($1, $2, TRUE) RETURNING *`,
         [userId, groupId]
+    );*/
+    const result = await pool.query(
+        `INSERT INTO group_members (user_id, group_id, pending)
+        VALUES ($1, $2, TRUE)
+        ON CONFLICT (user_id, group_id)
+        DO UPDATE SET pending = group_members.pending
+        RETURNING *`,
+        [userId, groupId]
     );
+
     return result.rows[0];
 };
 
@@ -206,6 +215,20 @@ const getAllGroupMembers = async (groupId) => {
     return result.rows;
 };
 
+// Get all groups where a user is a member (pending = false or true)
+const getGroupsByUser = async (userId) => {
+    const result = await pool.query(
+        `SELECT g.id, g.groupname, g.groupowner, u.username AS owner, gm.pending
+     FROM group_members gm
+     JOIN movie_groups g ON gm.group_id = g.id
+     JOIN users u ON g.groupowner = u.id
+     WHERE gm.user_id = $1
+     ORDER BY g.groupname ASC`,
+        [userId]
+    );
+    return result.rows;
+};
+
 export {
     createGroup,
     getAllGroups,
@@ -219,4 +242,5 @@ export {
     getPendingRequests,
     getUserMembershipStatus,
     getAllGroupMembers,
+    getGroupsByUser,
 };

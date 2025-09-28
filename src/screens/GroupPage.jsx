@@ -22,11 +22,17 @@ export default function GroupPage() {
         groupMembers,
         fetchGroupMembers,
         movies,
+        decideJoinRequest,
+        deleteGroupById,
     } = useGroups();
 
     const [movieInput, setMovieInput] = useState("");
     const [screenTimeInput, setScreenTimeInput] = useState("");
     const [groupVisible, setGroupVisible] = useState(false);
+
+    const [hoveredUserId, setHoveredUserId] = useState(null);
+    const [actionLoading, setActionLoading] = useState(null); // track which member action is loading
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
     // Load group membership on mount
     useEffect(() => {
@@ -37,7 +43,6 @@ export default function GroupPage() {
                 await fetchGroupDetails(groupId);
                 await fetchGroupMembers(groupId);
                 setGroupVisible(true);
-
             } else {
                 setGroupVisible(false);
             }
@@ -73,10 +78,48 @@ export default function GroupPage() {
         await fetchGroupDetails(groupId); // refresh after adding
     };
 
+    const handleRemove = async (memberId) => {
+        setActionLoading(memberId);
+        await removeMemberFromGroup(groupId, memberId);
+        await fetchGroupMembers(groupId);
+
+        if (!(memberId == currentGroup?.groupowner)) {
+            const loadGroup = async () => {
+                await fetchMembershipStatus(groupId);
+                setGroupVisible(false);
+            };
+            loadGroup();
+        }
+        setActionLoading(null);
+    };
+
+    const handleAccept = async (memberId) => {
+        setActionLoading(memberId);
+        await decideJoinRequest(groupId, memberId, true);
+        await fetchGroupMembers(groupId);
+        setActionLoading(null);
+    };
+
+    const handleReject = async (memberId) => {
+        setActionLoading(memberId);
+        await decideJoinRequest(groupId, memberId, false);
+        await fetchGroupMembers(groupId);
+        setActionLoading(null);
+    };
+
+    const handleDeleteGroup = async () => {
+        if (window.confirm("Are you sure you want to delete this group? This action cannot be undone.")) {
+            setDeleteLoading(true);
+            await deleteGroupById(groupId);
+            setDeleteLoading(false);
+            navigate("/groups");
+        }
+    };
+
     const isLoggedIn = !!user?.token;
+    const isOwner = groupMembers.find((m) => m.user_id === user?.id)?.role === "owner";
 
     if (loading) return <p>Loading group...</p>;
-
     return (
         <div className="group-page">
             {/*<h2>Group Details</h2>*/}
@@ -162,13 +205,70 @@ export default function GroupPage() {
                                     if (member.role === "owner") suffix = " (Owner)";
                                     else if (member.role === "pending") suffix = " (Wants to join)";
                                     return (
-                                        <li key={member.user_id}>
-                                            {member.username}{suffix}
+                                        <li
+                                            key={member.user_id}
+                                            onMouseEnter={() => setHoveredUserId(member.user_id)}
+                                            onMouseLeave={() => setHoveredUserId(null)}
+                                            className="member-item"
+                                        >
+                                            <span>{member.username}{suffix}</span>
+                                            {hoveredUserId === member.user_id && (
+                                                <div className="member-actions">
+                                                    {isOwner && member.role === "member" && member.user_id !== user?.id && (
+                                                        <button
+                                                            className="btn-danger"
+                                                            onClick={() => handleRemove(member.user_id)}
+                                                            disabled={actionLoading === member.user_id}
+                                                        >
+                                                            {actionLoading === member.user_id ? "Removing..." : "Remove"}
+                                                        </button>
+                                                    )}
+                                                    {member.user_id === user?.id && member.role === "member" && (
+                                                        <button
+                                                            className="btn-danger"
+                                                            onClick={() => handleRemove(member.user_id)}
+                                                            disabled={actionLoading === member.user_id}
+                                                        >
+                                                            {actionLoading === member.user_id ? "Leaving..." : "Leave"}
+                                                        </button>
+                                                    )}
+                                                    {isOwner && member.role === "pending" && (
+                                                        <>
+                                                            <button
+                                                                className="btn-success"
+                                                                onClick={() => handleAccept(member.user_id)}
+                                                                disabled={actionLoading === member.user_id}
+                                                            >
+                                                                {actionLoading === member.user_id ? "Accepting..." : "Accept"}
+                                                            </button>
+                                                            <button
+                                                                className="btn-danger"
+                                                                onClick={() => handleReject(member.user_id)}
+                                                                disabled={actionLoading === member.user_id}
+                                                            >
+                                                                {actionLoading === member.user_id ? "Rejecting..." : "Reject"}
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            )}
                                         </li>
                                     );
                                 })}
                         </ul>
                     </div>
+
+                    {isOwner && (
+                        <div className="delete-group">
+                            <button
+                                className="btn-danger"
+                                onClick={handleDeleteGroup}
+                                disabled={deleteLoading}
+                            >
+                                {deleteLoading ? "Deleting..." : "Delete Group"}
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
 

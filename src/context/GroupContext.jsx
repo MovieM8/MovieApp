@@ -12,6 +12,7 @@ import {
     addGroupScreening,
     checkGroupMembership,
     listGroupMembers,
+    listMyGroups,
 } from "../services/groups.js";
 import { useUser } from "./useUser.js";
 import { getMovieInfo } from "../services/TMDB.js"
@@ -33,6 +34,17 @@ export function GroupProvider({ children }) {
         setLoading(true);
         try {
             const data = await listGroups();
+            setGroups(data);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Fetch user groups
+    const fetchMyGroups = async () => {
+        setLoading(true);
+        try {
+            const data = await listMyGroups(user.token);
             setGroups(data);
         } finally {
             setLoading(false);
@@ -169,6 +181,7 @@ export function GroupProvider({ children }) {
                 fetchGroupMembers,
                 groupMembers,
                 movies,
+                fetchMyGroups,
             }}
         >
             {children}

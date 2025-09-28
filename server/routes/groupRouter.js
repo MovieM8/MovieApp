@@ -12,6 +12,7 @@ import {
     listPendingRequests,
     getGroupMembership,
     listGroupMembers,
+    listUserGroups,
 } from "../controllers/GroupController.js";
 import { auth } from "../helper/auth.js";
 
@@ -22,6 +23,9 @@ router.post("/", auth, createGroupController);
 
 // List all groups (public)
 router.get("/", listGroups);
+
+// Get all groups the logged-in user is part of
+router.get("/byuser", auth, listUserGroups);
 
 // Get group details (members only)
 router.get("/:groupId", auth, getGroupDetails);
@@ -52,5 +56,6 @@ router.get("/membership/:groupId", auth, getGroupMembership);
 
 // Get all members of a group with roles
 router.get("/:groupId/members", auth, listGroupMembers);
+
 
 export default router;

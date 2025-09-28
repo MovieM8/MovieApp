@@ -11,6 +11,7 @@ import {
     getPendingRequests,
     getUserMembershipStatus,
     getAllGroupMembers,
+    getGroupsByUser,
 } from "../models/Group.js";
 import { ApiError } from "../helper/ApiError.js";
 
@@ -215,6 +216,18 @@ const listGroupMembers = async (req, res, next) => {
     }
 };
 
+// List all groups the logged-in user is part of
+const listUserGroups = async (req, res, next) => {
+    try {
+        const userId = req.user?.id;
+        if (!userId) return next(new ApiError("User not authenticated", 401));
+        const groups = await getGroupsByUser(userId);
+        res.status(200).json(groups);
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     createGroupController,
     listGroups,
@@ -228,4 +241,5 @@ export {
     listPendingRequests,
     getGroupMembership,
     listGroupMembers,
+    listUserGroups,
 };

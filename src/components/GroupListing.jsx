@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGroups } from "../context/GroupContext.jsx";
 import { useUser } from "../context/useUser.js";
-import CreateGroupForm from "../components/CreateGroup.jsx";
+import CreateGroupForm from "./CreateGroup.jsx";
 import "./GroupListing.css";
 
-export default function GroupListing() {
-    const { groups, fetchGroups } = useGroups();
+export default function GroupListing({ onlyMyGroups = false }) {
+    const { groups, fetchGroups, fetchMyGroups } = useGroups();
     const { user } = useUser();
     const navigate = useNavigate();
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -15,7 +15,12 @@ export default function GroupListing() {
     useEffect(() => {
         const loadGroups = async () => {
             setLoading(true);
-            await fetchGroups();
+            if (onlyMyGroups) {
+                await fetchMyGroups();
+            }
+            else {
+                await fetchGroups();
+            }
             setLoading(false);
         };
         loadGroups();
@@ -40,7 +45,11 @@ export default function GroupListing() {
     return (
         <div className="groups-page">
             <div className="groups-header">
-                <h2>All Groups</h2>
+                {onlyMyGroups == true ? (
+                    <h2>My Groups</h2>
+                ) : (
+                    <h2>All Groups</h2>
+                )}
                 <button
                     className="create-group-btn"
                     onClick={handleCreateClick}

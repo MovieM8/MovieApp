@@ -4,6 +4,7 @@ import ScreeningTimeMenu from "./ScreeningAside.jsx"
 import SearchAside from "./SearchAside.jsx"
 import MovieAside from "./MovieAside.jsx";
 import ProfileAside from "./ProfileAside.jsx"
+import GroupAside from "./GroupAside.jsx"
 
 export default function Aside() {
     const location = useLocation();
@@ -24,7 +25,7 @@ export default function Aside() {
         } else if (isSharedFavorite) {
             return <p>View shared favorite movies.</p>;
         } else if (isGroup) {
-            return <p>Buttons to show all groups and my groups.</p>;
+            return <GroupAside />;
         }
         else {
             switch (location.pathname) {

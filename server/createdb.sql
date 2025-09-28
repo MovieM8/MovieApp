@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS movie_groups (
     CONSTRAINT fk_movie_group FOREIGN KEY (movieid)
         REFERENCES movies (tmdbid)
         ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT unique_user_group UNIQUE (user_id, group_id)
 );
 
 -- Group members table 
