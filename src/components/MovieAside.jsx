@@ -5,6 +5,7 @@ import { getMovieInfo } from "../services/TMDB.js";
 import { useMovie } from "../context/MovieContext.jsx";
 import ReviewForm from "./ReviewForm.jsx";
 import { useReviews } from "../context/ReviewContext.jsx";
+import AddMovieToGroup from "./AddMovieToGroup.jsx";
 import "./MovieAside.css";
 
 export default function MovieAside({ movieId }) {
@@ -18,7 +19,8 @@ export default function MovieAside({ movieId }) {
     //const movieId = Number(id);
     //const favorite = isFavorite(movieId);
     const [showReviewModal, setShowReviewModal] = useState(false);
-    const { fetchMovieReviews  } = useReviews();
+    const { fetchMovieReviews } = useReviews();
+    const [showGroupModal, setGroupReviewModal] = useState(false);
 
     // Use context movie if available, else fetch
     useEffect(() => {
@@ -49,6 +51,11 @@ export default function MovieAside({ movieId }) {
         setShowReviewModal(true);
     };
 
+    const handleAddToGroup = () => {
+        if (!fetchedMovie) return;
+        setGroupReviewModal(true);
+    };
+
     const handleReviewAdded = async () => {
         try {
             await fetchMovieReviews(id);
@@ -57,7 +64,7 @@ export default function MovieAside({ movieId }) {
         }
     };
 
-    let favo 
+    let favo
     if (user?.token) {
         favo = isFavorite(id);
     } else {
@@ -71,17 +78,17 @@ export default function MovieAside({ movieId }) {
         <div className="movie-aside">
             <ul>
                 <li>
-                     {!user?.token ? (<p><Link to="/signin">Sign in</Link> to manage movie</p> ) : (<p></p>)}
+                    {!user?.token ? (<p><Link to="/signin">Sign in</Link> to manage movie</p>) : (<p></p>)}
                 </li>
                 <li>
-                        <button
-                            onClick={handleToggleFavorite}
-                            className={`aside-btn ${favorite ? "favorited" : ""}`}
-                            disabled={!user?.token}
-                        >
-                            {favorite ? "★ Remove from Favorites" : "+ Add to Favorites"}
-                        </button>
-    
+                    <button
+                        onClick={handleToggleFavorite}
+                        className={`aside-btn ${favorite ? "favorited" : ""}`}
+                        disabled={!user?.token}
+                    >
+                        {favorite ? "★ Remove from Favorites" : "+ Add to Favorites"}
+                    </button>
+
                 </li>
                 <li>
                     <button
@@ -93,8 +100,12 @@ export default function MovieAside({ movieId }) {
                     </button>
                 </li>
                 <li>
-                    <button className="aside-btn" disabled>
-                        Add to Group (coming soon)
+                    <button
+                        onClick={handleAddToGroup}
+                        className="aside-btn"
+                        disabled={!user?.token}
+                    >
+                        Add to Group
                     </button>
                 </li>
             </ul>
@@ -107,6 +118,14 @@ export default function MovieAside({ movieId }) {
                     onClose={() => setShowReviewModal(false)}
                     onReviewAdded={handleReviewAdded}
 
+                />
+            )}
+
+            {/* Render Add to Group Form */}
+            {showGroupModal && selectedMovie && (
+                <AddMovieToGroup
+                    movie={selectedMovie}
+                    onClose={() => setGroupReviewModal(false)}
                 />
             )}
 

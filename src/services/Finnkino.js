@@ -78,6 +78,7 @@ export const fetchSchedule = async (areaId) => {
             method: s.PresentationMethod,
             lang: s.SpokenLanguage?.Name,
             image: s.Images?.EventMediumImagePortrait,
+            theatreid: s.TheatreID,
         }));
     } catch (err) {
         console.error("Failed to fetch schedule:", err);

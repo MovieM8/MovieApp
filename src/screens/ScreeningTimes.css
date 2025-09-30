@@ -40,3 +40,31 @@
   margin: 0.25rem 0;
   font-size: 0.875rem;
 }
+
+.screening-card {
+    position: relative;
+}
+
+.screening-group-btn {
+    display: none;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    z-index: 10;
+}
+
+.screening-card:hover .screening-group-btn {
+    display: block;
+}
+
+.screening-group-btn:hover {
+    background: #2980b9;
+}

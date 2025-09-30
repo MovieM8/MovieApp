@@ -89,10 +89,34 @@ button:disabled {
   cursor: not-allowed;
 }
 
-.groupMovieCard .moviegrid {
-  margin-left: 18vw;
-  margin-right: 18vw;
+/* Container holding the movie card(s) */
+.groupMovieCard {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
 }
+
+/* Movie grid inside the container */
+.groupMovieCard .moviegrid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem; /* spacing if multiple cards */
+  width: 100%;
+}
+
+/* Individual movie card */
+.groupMovieCard .moviegrid .movie-card {
+  flex: 0 1 auto;         /* natural sizing */
+  max-width: 45%;         /* never exceed 45% of container width */
+  min-width: 300px;        /* start expanding if below 300px */
+  width: auto;
+  box-sizing: border-box; /* include padding/border in width */
+}
+
 
 .groupMemb ul {
   list-style: none;
@@ -144,4 +168,12 @@ button:disabled {
 .delete-group {
   margin-top: 20px;
   text-align: center;
+}
+
+/* If container becomes very narrow, let the card take all space */
+@media (max-width: 320px) {
+  .groupMovieCard .moviegrid .movie-card {
+    max-width: 100%;
+    min-width: 0;
+  }
 }

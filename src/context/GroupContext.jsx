@@ -14,6 +14,7 @@ import {
     listGroupMembers,
     listMyGroups,
 } from "../services/groups.js";
+import { addScreenTimeToGroup as addScreenTimeToGroupService } from "../services/screenTime.js"
 import { useUser } from "./useUser.js";
 import { getMovieInfo } from "../services/TMDB.js"
 
@@ -123,9 +124,18 @@ export function GroupProvider({ children }) {
     };
 
     // Add screening
-    const addScreeningToGroupContext = async (groupId, screenTimeId) => {
+    const addScreeningToGroupContext = async (groupId, screen) => {
+        //if (!user?.token) return;
+        //return await addGroupScreening(groupId, screenTimeId, user.token);
+
         if (!user?.token) return;
-        return await addGroupScreening(groupId, screenTimeId, user.token);
+        try {
+            const addedScreen = await addScreenTimeToGroupService(groupId, screen, user.token);
+            return addedScreen; // returns the created screening time
+        } catch (err) {
+            console.error("Failed to add screening time to group", err);
+            return null;
+        }
     };
 
     // Check membership status of current user for a group

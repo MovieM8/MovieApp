@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS group_times (
         ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT fk_group FOREIGN KEY (group_id)
         REFERENCES movie_groups (id)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT unique_group_screen UNIQUE (group_id, screentimeid)
 );
 
 -- Favorites table

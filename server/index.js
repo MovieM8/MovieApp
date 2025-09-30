@@ -4,6 +4,7 @@ import userRouter from './routes/userRouter.js';
 import favoriteRouter from "./routes/favoriteRouter.js";
 import reviewRouter from "./routes/reviewRouter.js";
 import groupRouter from "./routes/groupRouter.js";
+import screenTimeRouter from "./routes/screenTimeRouter.js"
 
 
 const port = process.env.port; 
@@ -17,6 +18,7 @@ app.use('/user', userRouter); // Use the userRouter for /user routes
 app.use("/favorites", favoriteRouter); // Use the favoriteRouter for /favorites routes
 app.use("/reviews", reviewRouter); // Use the reviewRouter for /reviews routes
 app.use("/groups", groupRouter); // Use the groupRouter for /groups routes
+app.use("/screentime", screenTimeRouter); // Use the screenTimeRouter for /screentime routes
 
 // Error handling middleware
 app.use((err, req, res, next) => {

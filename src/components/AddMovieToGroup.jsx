@@ -9,7 +9,7 @@ export default function AddMovieToGroup({ movie, onClose }) {
     const { fetchMyGroups, groups, addMovieToGroupContext } = useGroups();
     const [selectedGroup, setSelectedGroup] = useState("");
     const [confirming, setConfirming] = useState(false);
-    const [toastMessage, setToastMessage] = useState("");
+    //const [toastMessage, setToastMessage] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,11 +27,12 @@ export default function AddMovieToGroup({ movie, onClose }) {
 
         await addMovieToGroupContext(selectedGroup, movie.id, movie.title);
 
-        setToastMessage(`✅ "${movie.title}" was added to the group successfully.`);
+        /*setToastMessage(`✅ "${movie.title}" was added to the group successfully.`);
         setTimeout(() => {
             setToastMessage("");
             onClose();
-        }, 2000);
+        }, 2000);*/
+        onClose();
     };
 
     // Not logged in case
@@ -64,7 +65,7 @@ export default function AddMovieToGroup({ movie, onClose }) {
             <div className="dialog">
                 <h3>Add "{movie.title}" to Group</h3>
 
-                {toastMessage && <div className="toast">{toastMessage}</div>}
+                {/*{toastMessage && <div className="toast">{toastMessage}</div>}*/}
 
                 {!confirming ? (
                     <>

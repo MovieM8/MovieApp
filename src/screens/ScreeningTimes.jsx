@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { useTheatre } from "../context/TheatreContext.jsx";
 import { fetchSchedule } from "../services/Finnkino.js";
+import { useUser } from "../context/useUser.js";
+//import { useGroups } from "../context/GroupContext.jsx";
+import AddScreeningToGroup from "../components/AddScreeningToGroup.jsx";
 import "./ScreeningTimes.css";
 
 export default function ScreeningTimes() {
     const { selectedTheatre } = useTheatre();
     const [shows, setShows] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const { user } = useUser();
+    const [selectedScreening, setSelectedScreening] = useState(null);
+    //const { addScreeningToGroupContext } = useGroups();
 
     // Format datetime into readable string
     const formatDateTime = (isoString) => {
@@ -67,8 +74,29 @@ export default function ScreeningTimes() {
                             <p><strong>Language:</strong> {show.lang}</p>
                             <p><strong>Format:</strong> {show.method}</p>
                         </div>
+
+                        {/* Add screening button on hover for logged in users */}
+                        {user?.token && (
+                            <button
+                                className="screening-group-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    setSelectedScreening(show);
+                                }}
+                            >
+                                + Add to Group
+                            </button>
+                        )}
                     </div>
                 ))
+            )}
+
+            {selectedScreening && (
+                <AddScreeningToGroup
+                    screening={selectedScreening}
+                    onClose={() => setSelectedScreening(null)}
+                />
             )}
         </div>
     );
