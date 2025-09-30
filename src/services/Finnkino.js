@@ -39,7 +39,7 @@ export const fetchTheatres = async () => {
 
         return areas
             .filter((t) => t.Name !== "Valitse alue/teatteri") // exclude placeholder
-            .filter((t) => t.Name !== "Espoo: liput beta.finnkino.fi-sivustolta") // exclude beta
+            .filter((t) => !t.Name.includes("beta.finnkino.fi")) // exclude beta
             .map((t) => ({
                 id: t.ID,
                 name: t.Name,

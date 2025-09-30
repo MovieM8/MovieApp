@@ -1,4 +1,3 @@
-
 .search.results {
   padding: 1rem;
 }
@@ -9,7 +8,8 @@
   gap: 1rem;
 }
 
-.moviegrid > div {
+.movies-section .movie-card {
+/*.moviegrid>div {*/
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -21,7 +21,7 @@
   cursor: pointer;
 }
 
-.moviegrid > div:hover {
+.moviegrid>div:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
@@ -70,7 +70,8 @@
 }
 
 .favorite-btn.favorited {
-  background: #28a745; /* green if already favorited */
+  background: #28a745;
+  /* green if already favorited */
 }
 
 /* movie link*/
@@ -79,6 +80,47 @@
   color: inherit;
   text-decoration: none;
 }
+
 .movie-link:hover {
   text-decoration: none;
+}
+
+/* container for hover buttons */
+.movie-card {
+  position: relative;
+}
+
+/* group button */
+.group-btn {
+  display: none;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.group-btn:hover {
+  background: #2980b9;
+}
+
+/* show buttons only on hover */
+.movie-card:hover .group-btn,
+.movie-card:hover .favorite-btn {
+  display: block;
+}
+
+/* Remove from group button */
+.group-btn.danger {
+  background: #e74c3c;
+}
+
+.group-btn.danger:hover {
+  background: #c0392b;
 }

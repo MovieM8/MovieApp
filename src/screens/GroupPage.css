@@ -1,95 +1,95 @@
 .group-page {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    font-family: sans-serif;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
 }
 
 .group-page h2 {
-    margin-bottom: 10px;
-    font-size: 28px;
-    color: #222;
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: #222;
 }
 
 .group-page p {
-    margin-bottom: 15px;
-    color: #555;
+  margin-bottom: 15px;
+  color: #555;
 }
 
 .group-member-section {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .group-member-section h3 {
-    margin-top: 20px;
-    font-size: 20px;
-    color: #333;
+  margin-top: 20px;
+  font-size: 20px;
+  color: #333;
 }
 
 .group-member-section ul {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 15px;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 15px;
 }
 
 .group-member-section ul li {
-    padding: 6px 0;
-    border-bottom: 1px solid #e0e0e0;
+  padding: 6px 0;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .group-member-section form {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .group-member-section form input[type="text"] {
-    flex: 1;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-right: 10px;
-    font-size: 14px;
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-right: 10px;
+  font-size: 14px;
 }
 
 .group-member-section form button {
-    padding: 8px 14px;
-    background-color: #3f51b5;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  padding: 8px 14px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .group-member-section form button:hover {
-    background-color: #303f9f;
+  background-color: #303f9f;
 }
 
 button {
-    padding: 8px 14px;
-    background-color: #3f51b5;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  padding: 8px 14px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 button:hover {
-    background-color: #303f9f;
+  background-color: #303f9f;
 }
 
 button:disabled {
-    background-color: #999;
-    cursor: not-allowed;
+  background-color: #999;
+  cursor: not-allowed;
 }
 
-.groupMovieCard .moviegrid{
+.groupMovieCard .moviegrid {
   margin-left: 18vw;
   margin-right: 18vw;
 }
