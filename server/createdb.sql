@@ -1,5 +1,5 @@
 -- Drop tables safely 
-DROP TABLE IF EXISTS reviews, favorites, sharedfavorites, group_members, group_times, movie_groups, screen_times, movies, users CASCADE;
+DROP TABLE IF EXISTS reviews, favorites, sharedfavorites, group_chat, group_members, group_times, movie_groups, screen_times, movies, users CASCADE;
 
 GRANT ALL ON SCHEMA public TO dbuser;
 
@@ -85,6 +85,21 @@ CREATE TABLE IF NOT EXISTS favorites (
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+-- Group chat table 
+CREATE TABLE IF NOT EXISTS group_chat (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    group_id INTEGER NOT NULL,
+    msg TEXT NOT NULL,
+    send_at TIMESTAMP DEFAULT NOW(),
+    CONSTRAINT fk_user_chat FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT fk_group_chat FOREIGN KEY (group_id)
+        REFERENCES movie_groups (id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- Reviews table
 CREATE TABLE IF NOT EXISTS reviews (
     id SERIAL PRIMARY KEY,
@@ -138,6 +153,8 @@ CREATE INDEX IF NOT EXISTS idx_groups_movie ON movie_groups (movieid);
 CREATE INDEX IF NOT EXISTS idx_group_times_screen_times ON group_times (screentimeid);
 CREATE INDEX IF NOT EXISTS idx_group_times_group ON group_times (group_id);
 CREATE INDEX IF NOT EXISTS idx_sharedfavorites_user ON sharedfavorites (user_id);
+CREATE INDEX IF NOT EXISTS idx_group_chat_user ON group_chat (user_id);
+CREATE INDEX IF NOT EXISTS idx_group_chat_group ON group_chat (group_id);
 
 -- Revoke first
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM dbuser;
