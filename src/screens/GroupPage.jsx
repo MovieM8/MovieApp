@@ -90,7 +90,9 @@ export default function GroupPage() {
         if (!(memberId == currentGroup?.groupowner)) {
             const loadGroup = async () => {
                 await fetchMembershipStatus(groupId);
-                setGroupVisible(false);
+                if(membershipStatus === "none") {
+                    setGroupVisible(false);
+                }
             };
             loadGroup();
         }
