@@ -78,6 +78,12 @@ const removeGroup = async (groupId, ownerId) => {
             [groupId]
         );
 
+        // Remove related group_chats
+        await client.query(
+            "DELETE FROM group_chat WHERE group_id = $1",
+            [groupId]
+        );
+
         // Finally delete the group (only if owner matches)
         const result = await client.query(
             "DELETE FROM movie_groups WHERE id = $1 AND groupowner = $2 RETURNING *",

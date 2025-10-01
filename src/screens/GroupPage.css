@@ -92,7 +92,8 @@ button:disabled {
 /* Container holding the movie card(s) */
 .groupMovieCard {
   display: flex;
-  justify-content: center; /* center horizontally */
+  justify-content: center;
+  /* center horizontally */
   align-items: center;
   width: 100%;
   padding: 1rem 0;
@@ -104,17 +105,22 @@ button:disabled {
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  gap: 1rem; /* spacing if multiple cards */
+  gap: 1rem;
+  /* spacing if multiple cards */
   width: 100%;
 }
 
 /* Individual movie card */
 .groupMovieCard .moviegrid .movie-card {
-  flex: 0 1 auto;         /* natural sizing */
-  max-width: 45%;         /* never exceed 45% of container width */
-  min-width: 300px;        /* start expanding if below 300px */
+  flex: 0 1 auto;
+  /* natural sizing */
+  max-width: 45%;
+  /* never exceed 45% of container width */
+  min-width: 300px;
+  /* start expanding if below 300px */
   width: auto;
-  box-sizing: border-box; /* include padding/border in width */
+  box-sizing: border-box;
+  /* include padding/border in width */
 }
 
 
@@ -169,6 +175,50 @@ button:disabled {
   margin-top: 20px;
   text-align: center;
 }
+
+.screening-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.screening-table th,
+.screening-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.screening-table th {
+  background: #c7c7c7;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.screening-table tr:hover {
+  background: #f9f9f9;
+}
+
+.small-btn {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  background: #e74c3c;
+  color: #fff;
+  transition: background 0.2s ease;
+}
+
+.small-btn:hover {
+  background: #c0392b;
+}
+
+
 
 /* If container becomes very narrow, let the card take all space */
 @media (max-width: 320px) {

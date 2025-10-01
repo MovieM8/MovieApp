@@ -15,6 +15,7 @@ import {
     listMyGroups,
 } from "../services/groups.js";
 import { addScreenTimeToGroup as addScreenTimeToGroupService } from "../services/screenTime.js"
+import { getScreenTimesByGroup, removeScreenTimeFromGroup } from "../services/screenTime.js"
 import { useUser } from "./useUser.js";
 import { getMovieInfo } from "../services/TMDB.js"
 
@@ -29,6 +30,7 @@ export function GroupProvider({ children }) {
     const [membershipStatus, setMembershipStatus] = useState("none"); // "none", "pending", "member"
     const [groupMembers, setGroupMembers] = useState([]);
     const [movies, setMovies] = useState([]);
+    const [groupScreenTimes, setGroupScreenTimes] = useState([]);
 
     // Fetch all groups
     const fetchGroups = async () => {
@@ -169,6 +171,24 @@ export function GroupProvider({ children }) {
         }
     };
 
+    // Group screening times
+    const fetchGroupSceenTimes = async (groupId) => {
+        if (!user?.token) return;
+        const data = await getScreenTimesByGroup(groupId, user.token);
+        setGroupScreenTimes(data || []);
+        return data;
+    };
+
+    // Remove group screening time
+    const removeGroupSceenTime = async (groupTimeId) => {
+        if (!user?.token) return;
+        const res = await removeScreenTimeFromGroup(groupTimeId, user.token);
+        if (res) {
+            setGroupScreenTimes((prev) => prev.filter((s) => s.group_time_id !== groupTimeId));
+        }
+        return res;
+    };
+
     return (
         <GroupContext.Provider
             value={{
@@ -192,6 +212,9 @@ export function GroupProvider({ children }) {
                 groupMembers,
                 movies,
                 fetchMyGroups,
+                groupScreenTimes,
+                fetchGroupSceenTimes,
+                removeGroupSceenTime,
             }}
         >
             {children}

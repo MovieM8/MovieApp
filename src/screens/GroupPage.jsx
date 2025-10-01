@@ -24,6 +24,9 @@ export default function GroupPage() {
         movies,
         decideJoinRequest,
         deleteGroupById,
+        groupScreenTimes,
+        fetchGroupSceenTimes,
+        removeGroupSceenTime,
     } = useGroups();
 
     const [movieInput, setMovieInput] = useState("");
@@ -42,6 +45,7 @@ export default function GroupPage() {
             if (status === "member") {
                 await fetchGroupDetails(groupId);
                 await fetchGroupMembers(groupId);
+                await fetchGroupSceenTimes(groupId);
                 setGroupVisible(true);
             } else {
                 setGroupVisible(false);
@@ -181,11 +185,53 @@ export default function GroupPage() {
 
                     <div className="groupTimes">
                         <h3>Screening Times</h3>
-                        <ul>
-                            {currentGroup.groupScreenings?.map((s, idx) => (
-                                <li key={idx}>{s.screentime}</li>
-                            ))}
-                        </ul>
+                        {groupScreenTimes.length === 0 ? (
+                            <p>No screening times added yet.</p>
+                        ) : (
+                            <table className="screening-table">
+                                <thead>
+                                    <tr>
+                                        <th>Movie</th>
+                                        <th>Theatre</th>
+                                        <th>Auditorium</th>
+                                        <th>Start Time</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {groupScreenTimes.map((s) => (
+                                        <tr
+                                            key={s.group_time_id}
+                                            onMouseEnter={() => setHoveredUserId(s.group_time_id)}
+                                            onMouseLeave={() => setHoveredUserId(null)}
+                                        >
+                                            <td>{s.movie}</td>
+                                            <td>{s.theatre}</td>
+                                            <td>{s.auditorium}</td>
+                                            <td>
+                                                {new Date(s.starttime).toLocaleString("fi-FI", {
+                                                    year: "numeric",
+                                                    month: "2-digit",
+                                                    day: "2-digit",
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })}
+                                            </td>
+                                            <td>
+                                                {hoveredUserId === s.group_time_id && (
+                                                    <button
+                                                        className="btn-danger small-btn"
+                                                        onClick={() => removeGroupSceenTime(s.group_time_id)}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
                     </div>
 
                     <div className="groupMemb">
