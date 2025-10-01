@@ -70,11 +70,13 @@ export default function AddScreeningToGroup({ screening, onClose }) {
                             onChange={(e) => setSelectedGroup(e.target.value)}
                         >
                             <option value="">-- Select a group --</option>
-                            {groups.map((g) => (
-                                <option key={g.id} value={g.id}>
-                                    {g.groupname}
-                                </option>
-                            ))}
+                            {groups
+                                .filter((g) => g.pending === false) // show only approved groups
+                                .map((g) => (
+                                    <option key={g.id} value={g.id}>
+                                        {g.groupname}
+                                    </option>
+                                ))}
                         </select>
                     </label>
                     <div className="dialog-actions">
