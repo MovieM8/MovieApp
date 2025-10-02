@@ -1,6 +1,7 @@
 #header {
-    background-image: url(../assets/reel_image.png);
-    height: 333px;
     width: 100%;
-    background-size: cover
+    height: 123px; /* matches image height */
+    background-repeat: repeat-x;
+    background-position: top center;
+    background-size: auto 123px; /* keep original height */
 }

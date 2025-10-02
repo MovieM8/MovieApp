@@ -1,0 +1,89 @@
+.group-chat {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.group-chat h3 {
+    margin-bottom: 0.75rem;
+}
+
+.chat-messages {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column-reverse; /* newest at bottom */
+}
+
+.chat-message {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+    margin: 0.4rem 0;
+    background: #fff;
+    border-radius: 8px;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.chat-message.own {
+    background: #e9f7ff;
+}
+
+.chat-header {
+    font-size: 0.85rem;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.2rem;
+}
+
+.chat-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-body p {
+    margin: 0;
+}
+
+.delete-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.chat-message:hover .delete-btn {
+    display: inline-block;
+}
+
+.chat-input {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.chat-input button {
+    padding: 0.6rem 1rem;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background: #2980b9;
+}

@@ -16,6 +16,7 @@ import {
 } from "../services/groups.js";
 import { addScreenTimeToGroup as addScreenTimeToGroupService } from "../services/screenTime.js"
 import { getScreenTimesByGroup, removeScreenTimeFromGroup } from "../services/screenTime.js"
+import { addGroupMessage, getGroupMessages, deleteGroupMessage } from "../services/groupChat.js"
 import { useUser } from "./useUser.js";
 import { getMovieInfo } from "../services/TMDB.js"
 
@@ -31,6 +32,7 @@ export function GroupProvider({ children }) {
     const [groupMembers, setGroupMembers] = useState([]);
     const [movies, setMovies] = useState([]);
     const [groupScreenTimes, setGroupScreenTimes] = useState([]);
+    const [chatMessages, setChatMessages] = useState([]);
 
     // Fetch all groups
     const fetchGroups = async () => {
@@ -189,6 +191,36 @@ export function GroupProvider({ children }) {
         return res;
     };
 
+    // Fetch group chat messages
+    const fetchGroupChats = async (groupId) => {
+        if (!user?.token) return;
+        const data = await getGroupMessages(groupId, user.token);
+        setChatMessages(data || []);
+        return data;
+    };
+
+    // Add group chat message
+    const addChatMessage = async (groupId, msg) => {
+        if (!user?.token) return;
+        try {
+            const addedMessage = await addGroupMessage(groupId, msg, user.token);
+            return addedMessage; // returns the added message
+        } catch (err) {
+            console.error("Failed to add screening time to group", err);
+            return null;
+        }
+    };
+
+    // Remove group chat message
+    const removeChatMessage = async (messageId) => {
+        if (!user?.token) return;
+        const res = await deleteGroupMessage(messageId, user.token);
+        if (res) {
+            setChatMessages((prev) => prev.filter((m) => m.id !== messageId));
+        }
+        return res;
+    };
+
     return (
         <GroupContext.Provider
             value={{
@@ -215,6 +247,10 @@ export function GroupProvider({ children }) {
                 groupScreenTimes,
                 fetchGroupSceenTimes,
                 removeGroupSceenTime,
+                fetchGroupChats,
+                addChatMessage,
+                removeChatMessage,
+                chatMessages,
             }}
         >
             {children}

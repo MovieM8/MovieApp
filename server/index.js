@@ -5,6 +5,7 @@ import favoriteRouter from "./routes/favoriteRouter.js";
 import reviewRouter from "./routes/reviewRouter.js";
 import groupRouter from "./routes/groupRouter.js";
 import screenTimeRouter from "./routes/screenTimeRouter.js"
+import groupChatRouter from "./routes/groupChatRouter.js"
 
 
 const port = process.env.port; 
@@ -19,6 +20,7 @@ app.use("/favorites", favoriteRouter); // Use the favoriteRouter for /favorites 
 app.use("/reviews", reviewRouter); // Use the reviewRouter for /reviews routes
 app.use("/groups", groupRouter); // Use the groupRouter for /groups routes
 app.use("/screentime", screenTimeRouter); // Use the screenTimeRouter for /screentime routes
+app.use("/groupchat", groupChatRouter); // Use the groupChatRouter for /groupchat routes
 
 // Error handling middleware
 app.use((err, req, res, next) => {

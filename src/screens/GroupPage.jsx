@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useGroups } from "../context/GroupContext.jsx";
 import { useUser } from "../context/useUser.js";
 import MovieCards from "../components/Moviecards.jsx"
+import GroupChat from "../components/GroupChat.jsx"
 import "./GroupPage.css";
 
 export default function GroupPage() {
@@ -234,6 +235,11 @@ export default function GroupPage() {
                                 </tbody>
                             </table>
                         )}
+                    </div>
+
+                    <div className="groupChat">
+                        <h3>Group Chat</h3>
+                        <GroupChat groupId={groupId} />
                     </div>
 
                     <div className="groupMemb">
