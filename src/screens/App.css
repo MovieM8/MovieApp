@@ -1,26 +1,19 @@
-#container {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
 /* Layout for aside + main */
 .main-layout {
   display: flex;
   flex: 1;
+  min-height: 0; /* ensures flex children can shrink properly */
 }
 
-/* Aside styles */
-/*.aside-container {
-  padding: 1rem;
-  flex-shrink: 0;
-}*/
+/* Responsive stacking */
+@media (max-width: 700px) {
+  .main-layout {
+    flex-direction: column; /* aside goes above main */
+  }
+}
 
 /* Main content styles */
 main {
   flex: 1;
   padding: 1.5rem;
-
 }
-

@@ -17,7 +17,7 @@ export default function ProfileAside() {
     };
 
     return (
-        <ul>
+        <ul className="profile-aside">
             <li><Link to="/myprofile">My Profile</Link></li>
             <li><Link to="/myprofile/favorites">My Favorites</Link></li>
             <li><Link to="/myprofile/myreviews">My Reviews</Link></li>

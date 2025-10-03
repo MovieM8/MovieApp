@@ -227,3 +227,18 @@ button:disabled {
     min-width: 0;
   }
 }
+
+/* Responsive adjustments for screening table */
+@media (max-width: 520px) {
+  .screening-table {
+    font-size: 0.8rem;       /* shrink text */
+    display: block;          /* make table scrollable horizontally */
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .screening-table th,
+  .screening-table td {
+    padding: 0.5rem 0.6rem; /* tighter padding */
+  }
+}

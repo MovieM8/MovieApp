@@ -34,3 +34,25 @@
 .aside-btn.favorited {
   background: #28a745; /* green for favorited */
 }
+
+/* Responsivines */
+@media (max-width: 700px) {
+
+  .movie-aside ul {
+    display: flex;
+    flex-wrap: wrap;      /* allow buttons to wrap */
+    gap: 0.5rem;          /* spacing between buttons */
+  }
+
+  .movie-aside li {
+    flex: 1 1 auto;        /* allow buttons to grow/shrink */
+    margin-bottom: 0;      /* remove default bottom margin */
+  }
+
+  .aside-btn {
+    display: inline-flex;  /* inline-flex allows them to sit side by side */
+    width: auto;           /* let buttons size naturally */
+    flex: 1 1 auto;        /* flexible width to share space */
+    justify-content: center; /* center text */
+  }
+}

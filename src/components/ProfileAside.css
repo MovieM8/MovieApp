@@ -79,3 +79,47 @@
 .remove-btn:hover {
   background: #c82333;
 }
+
+/* Responsivines */
+@media (max-width: 700px) {
+  .profile-aside {
+    display: flex;
+    flex-wrap: wrap;       /* allows wrapping if not enough space */
+    gap: 0.5rem 1rem;      /* space between links */
+    justify-content: center; /* center horizontally */
+  }
+
+  .profile-aside li {
+    margin: 0;             /* remove vertical margin since now inline */
+  }
+
+  .profile-aside a {
+    display: block;
+    padding: 0.4rem 0.8rem;
+    background: #f0f0f0;   /* optional: give button-like look */
+    border-radius: 6px;
+  }
+
+  .profile-aside a:hover {
+    background: #e0e0e0;
+  }
+
+  .sharelink-container {
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center; /* vertically center input and buttons */
+    flex-wrap: wrap;     /* allow items to wrap to new row */
+  }
+
+  .sharelink-input {
+    flex: 1 1 150px; /* input grows, shrinks, with minimum width */
+    min-width: 150px; /* prevent input from getting too small */
+  }
+
+  .sharelink-actions {
+    flex-shrink: 0; /* buttons don't shrink */
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap; /* allow buttons to wrap if container is too narrow */
+  }
+}

@@ -31,3 +31,10 @@
     color: #007bff;
     text-decoration: none;
 }
+
+/* Responsivines */
+@media (max-width: 700px) {
+  .group-aside-list {
+    flex-direction: row;
+  }
+}
