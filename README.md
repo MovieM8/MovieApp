@@ -61,8 +61,8 @@ The application integrates the following open data sources:
 
 2. Navigate to the project folder and install dependencies for frontend and backend:
     ```bash
-    cd frontend && npm install
-    cd ../backend && npm install
+    cd src && npm install
+    cd ../server && npm install
 
 3. Set up PostgreSQL database and configure environment variables for API keys and database connection.
 
