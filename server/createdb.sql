@@ -1,7 +1,7 @@
 -- Drop tables safely 
 DROP TABLE IF EXISTS reviews, favorites, sharedfavorites, group_chat, group_members, group_times, movie_groups, screen_times, movies, users CASCADE;
 
-GRANT ALL ON SCHEMA public TO dbuser;
+--GRANT ALL ON SCHEMA public TO dbuser;
 
 
 -- Users table
@@ -130,18 +130,20 @@ CREATE TABLE IF NOT EXISTS sharedfavorites (
 
 
 -- Create role if not exists
-/*
+
 DO $$
 BEGIN
    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'dbuser') THEN
-      CREATE ROLE dbuser LOGIN PASSWORD 'Qwerty123';
+      --CREATE ROLE dbuser LOGIN PASSWORD 'Qwerty123';
+      CREATE ROLE dbuser LOGIN PASSWORD 'XQf8599onUfDAdY';
    ELSE
-      ALTER ROLE dbuser WITH PASSWORD 'Qwerty123' LOGIN;
+      --ALTER ROLE dbuser WITH PASSWORD 'Qwerty123' LOGIN;
+      ALTER ROLE dbuser WITH PASSWORD 'XQf8599onUfDAdY' LOGIN;
    END IF;
 END
 $$;
 
-*/ 
+
 
 -- Helpful indexes on foreign keys
 CREATE INDEX IF NOT EXISTS idx_group_members_user ON group_members (user_id);
@@ -203,12 +205,12 @@ INSERT INTO movie_groups (groupname, groupowner, groupmovie, movieid) VALUES
 ('Animated Adventures', 5, 'Toy Story', 862);
 
 -- Insert group members (each group has multiple users)
-INSERT INTO group_members (user_id, group_id) VALUES
-(1, 1), (2, 1), (3, 1), (6, 1), -- Sci-Fi Lovers
-(2, 2), (4, 2), (5, 2), (7, 2), -- Comedy Night
-(3, 3), (1, 3), (8, 3), (9, 3), -- Classic Cinema
-(4, 4), (2, 4), (6, 4), (10, 4), -- Superhero Squad
-(5, 5), (7, 5), (8, 5), (9, 5), (10, 5); -- Animated Adventures
+INSERT INTO group_members (user_id, group_id, pending) VALUES
+(1, 1, false), (2, 1, false), (3, 1, false), (6, 1, false), -- Sci-Fi Lovers
+(2, 2, false), (4, 2, false), (5, 2, false), (7, 2, false), -- Comedy Night
+(3, 3, false), (1, 3, false), (8, 3, false), (9, 3, false), -- Classic Cinema
+(4, 4, false), (2, 4, false), (6, 4, false), (10, 4, false), -- Superhero Squad
+(5, 5, false), (7, 5, false), (8, 5, false), (9, 5, false), (10, 5, false); -- Animated Adventures
 
 -- Insert favorites (each user has at least one)
 INSERT INTO favorites (user_id, movieid, movie) VALUES
