@@ -37,6 +37,7 @@ export default function GroupPage() {
     const [hoveredUserId, setHoveredUserId] = useState(null);
     const [actionLoading, setActionLoading] = useState(null); // track which member action is loading
     const [deleteLoading, setDeleteLoading] = useState(false);
+    const [hoveredScreeningId, setHoveredScreeningId] = useState(null);
 
     // Load group membership on mount
     useEffect(() => {
@@ -205,8 +206,8 @@ export default function GroupPage() {
                                     {groupScreenTimes.map((s) => (
                                         <tr
                                             key={s.group_time_id}
-                                            onMouseEnter={() => setHoveredUserId(s.group_time_id)}
-                                            onMouseLeave={() => setHoveredUserId(null)}
+                                            onMouseEnter={() => setHoveredScreeningId(s.group_time_id)}
+                                            onMouseLeave={() => setHoveredScreeningId(null)}
                                         >
                                             <td>{s.movie}</td>
                                             <td>{s.theatre}</td>
@@ -221,7 +222,7 @@ export default function GroupPage() {
                                                 })}
                                             </td>
                                             <td>
-                                                {hoveredUserId === s.group_time_id && (
+                                                {hoveredScreeningId === s.group_time_id && (
                                                     <button
                                                         className="btn-danger small-btn"
                                                         onClick={() => removeGroupSceenTime(s.group_time_id)}
