@@ -91,3 +91,7 @@ The application integrates the following open data sources:
 ## API Documentation
 
 For detailed information on the REST API endpoints used in this project, see the [Postman API Documentation](https://documenter.getpostman.com/view/41099669/2sB3QJNAbA).
+
+## Published site
+
+You can visit the [Movie App](https://movieapp-front.onrender.com/)
