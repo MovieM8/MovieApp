@@ -8,7 +8,7 @@ const __dirname = import.meta.dirname;
 
 const initializeTestDb = async () => {
   const sql = fs.readFileSync(
-    path.resolve(__dirname, "../createdb.sql"),
+    path.resolve(__dirname, "../createdb_test.sql"),
     "utf8"
   );
 
